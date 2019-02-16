@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #526ED5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.samuel.proyecto.vista.ControladorLogin">
+   <children>
+      <Label layoutX="153.0" layoutY="42.0" text="Login" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="152.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <TextField id="nombre" fx:id="nombre" alignment="CENTER" layoutX="126.0" layoutY="125.0" promptText="Nombre de usuario" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="120.0" />
+      <PasswordField id="clave" fx:id="clave" alignment="CENTER" layoutX="126.0" layoutY="160.0" promptText="Clave de acceso" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="150.0" />
+      <Button id="botonEntrar" layoutX="163.0" layoutY="221.0" mnemonicParsing="false" onAction="#entrar" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #3A2783;" text="Entrar" textFill="#f8f6f6" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="162.0" />
+      <Label layoutX="179.0" layoutY="269.0" text="Dejar en blanco para acceder como invitado" AnchorPane.rightAnchor="10.0" />
+      <Label id="error" fx:id="error" layoutX="126.0" layoutY="175.0" prefHeight="17.0" prefWidth="149.0" text="Datos de acceso incorrectos" textAlignment="CENTER" textFill="#a40909" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.samuel.proyecto.vista.ControladorPrincipal">
+	<center>
+		<SplitPane dividerPositions="0.5" prefHeight="340.0" prefWidth="600.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+			<items>
+				<AnchorPane minHeight="0.0" minWidth="300.0" prefHeight="288.0" prefWidth="300.0">
+					<children>
+						<Pane prefHeight="338.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<children>
+								<Label alignment="CENTER" layoutX="58.0" layoutY="14.0" prefHeight="20.0" prefWidth="180.0" text="Opciones de usuario" textFill="#dddddd" />
+								<Button layoutX="10.0" layoutY="60.0" mnemonicParsing="false" onAction="#verJuegos" prefHeight="40.0" prefWidth="200.0" text="Ver juegos">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Button>
+								<Button layoutX="10.0" layoutY="120.0" mnemonicParsing="false" onAction="#verDesarrolladores" prefHeight="40.0" prefWidth="200.0" text="Ver desarrolladores">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Button>
+							</children>
+						</Pane>
+					</children>
+				</AnchorPane>
+				<AnchorPane minHeight="0.0" minWidth="300.0" prefHeight="288.0" prefWidth="300.0">
+					<children>
+						<Pane prefHeight="338.0" prefWidth="296.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<children>
+								<Label alignment="CENTER" layoutX="58.0" layoutY="14.0" prefHeight="20.0" prefWidth="180.0" text="Opciones de administrador" textFill="#dddddd" />
+								<Button id="btnNuevoJuego" fx:id="btnNuevoJuego" layoutX="86.0" layoutY="60.0" mnemonicParsing="false" onAction="#nuevoJuego" prefHeight="40.0" prefWidth="200.0" text="Nuevo juego">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Button>
+								<Button id="btnNuevoDesarrollador" fx:id="btnNuevoDesarrollador" layoutX="86.0" layoutY="120.0" mnemonicParsing="false" onAction="#nuevoDesarrollador" prefHeight="40.0" prefWidth="200.0" text="Nuevo desarrollador">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Button>
+							</children>
+						</Pane>
+					</children>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+	</center>
+	<bottom>
+		<Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+			<children>
+				<Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#volver" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
+				<Label layoutX="39.0" layoutY="17.0" prefHeight="17.0" prefWidth="85.0" text="Volver al Login" textFill="#dddddd">
+					<padding>
+						<Insets left="5.0" />
+					</padding>
+				</Label>
+				<Button layoutX="555.0" layoutY="13.0" mnemonicParsing="false" onAction="#salir" text="Salir" />
+			</children>
+		</Pane>
+	</bottom>
+	<top>
+		<Pane style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+			<children>
+				<Label layoutX="194.0" text="Valorator" textFill="#bbbbbb">
+					<font>
+						<Font name="Caladea Bold" size="48.0" />
+					</font>
+				</Label>
+			</children>
+		</Pane>
+	</top>
+</BorderPane>
