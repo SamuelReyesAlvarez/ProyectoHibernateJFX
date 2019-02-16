@@ -3,6 +3,15 @@ package dam.samuel.proyecto.modelo;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * 
  * @author Samuel Reyes Alvarez
@@ -14,101 +23,173 @@ public class Juego {
 		rol, accion, aventura, estrategia
 	}
 
-	private int idJuego;
-	private String nombre;
-	private EstiloJuego estilo;
-	private Date publicacion;
-	private String descripcion;
-	private double precio;
-	private ArrayList<Empresa> desarrolladores;
-	private ArrayList<Valoracion> valoraciones;
+	private final IntegerProperty idJuego;
+	private final StringProperty nombre;
+	private final StringProperty estilo;
+	private final ObjectProperty<Date> publicacion;
+	private final StringProperty descripcion;
+	private final DoubleProperty precio;
+	private final StringProperty desarrolladores;
+	private final IntegerProperty valoracion;
+	private ArrayList<Empresa> listaDesarrolladores;
+	private ArrayList<Valoracion> listaValoraciones;
 
 	public Juego(int idJuego, String nombre, EstiloJuego estilo, Date publicacion, String descripcion, double precio,
 			ArrayList<Empresa> desarrolladores, ArrayList<Valoracion> valoraciones) {
-		super();
-		this.idJuego = idJuego;
-		this.nombre = nombre;
-		this.estilo = estilo;
-		this.publicacion = publicacion;
-		this.descripcion = descripcion;
-		this.precio = precio;
-		this.desarrolladores = desarrolladores;
-		this.valoraciones = valoraciones;
+		this.idJuego = new SimpleIntegerProperty(idJuego);
+		this.nombre = new SimpleStringProperty(nombre);
+		this.estilo = new SimpleStringProperty(estilo.toString());
+		this.publicacion = new SimpleObjectProperty<Date>(publicacion);
+		this.descripcion = new SimpleStringProperty(descripcion);
+		this.precio = new SimpleDoubleProperty(precio);
+		this.desarrolladores = setDesarroladores(desarrolladores);
+		this.valoracion = setValoracion(valoraciones);
+		this.listaDesarrolladores = desarrolladores;
+		this.listaValoraciones = valoraciones;
 	}
 
 	public Juego() {
-		super();
+		this(0, null, null, null, null, 0, null, null);
 	}
 
 	public int getIdJuego() {
-		return idJuego;
+		return idJuego.get();
 	}
 
 	public String getNombre() {
-		return nombre;
+		return nombre.get();
 	}
 
-	public EstiloJuego getEstilo() {
-		return estilo;
+	public String getEstilo() {
+		return estilo.get();
 	}
 
 	public Date getPublicacion() {
-		return publicacion;
+		return publicacion.get();
 	}
 
 	public String getDescripcion() {
-		return descripcion;
+		return descripcion.get();
 	}
 
 	public double getPrecio() {
-		return precio;
+		return precio.get();
 	}
 
-	public ArrayList<Empresa> getDesarrolladores() {
-		return desarrolladores;
+	public String getDesarrolladores() {
+		return desarrolladores.get();
 	}
 
-	public ArrayList<Valoracion> getValoraciones() {
-		return valoraciones;
+	public int getValoracion() {
+		return valoracion.get();
+	}
+
+	public ArrayList<Empresa> getListaDesarrolladores() {
+		return listaDesarrolladores;
+	}
+
+	public ArrayList<Valoracion> getListaValoraciones() {
+		return listaValoraciones;
 	}
 
 	public void setIdJuego(int idJuego) {
-		this.idJuego = idJuego;
+		this.idJuego.set(idJuego);
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.nombre.set(nombre);
 	}
 
 	public void setEstilo(EstiloJuego estilo) {
-		this.estilo = estilo;
+		this.estilo.set(estilo.toString());
 	}
 
 	public void setPublicacion(Date publicacion) {
-		this.publicacion = publicacion;
+		this.publicacion.set(publicacion);
 	}
 
 	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+		this.descripcion.set(descripcion);
 	}
 
 	public void setPrecio(double precio) {
-		this.precio = precio;
+		this.precio.set(precio);
 	}
 
-	public void setDesarrolladores(ArrayList<Empresa> desarrolladores) {
-		this.desarrolladores = desarrolladores;
+	public StringProperty setDesarroladores(ArrayList<Empresa> desarrolladores) {
+		StringBuilder lista = new StringBuilder();
+
+		for (Empresa empresa : desarrolladores) {
+			if (lista.length() > 0) {
+				lista.append(", ");
+			}
+			lista.append(empresa.getNombre());
+		}
+
+		this.desarrolladores.set(lista.toString());
+
+		return this.desarrolladores;
 	}
 
-	public void setValoraciones(ArrayList<Valoracion> valoraciones) {
-		this.valoraciones = valoraciones;
+	public IntegerProperty setValoracion(ArrayList<Valoracion> valoraciones) {
+		int positivas = 0;
+
+		for (Valoracion valoracion : valoraciones) {
+			if (valoracion.isPositivo()) {
+				positivas++;
+			}
+		}
+
+		this.valoracion.set(positivas * 100 / valoraciones.size());
+
+		return this.valoracion;
+	}
+
+	public void setListaDesarrolladores(ArrayList<Empresa> desarrolladores) {
+		this.listaDesarrolladores = desarrolladores;
+	}
+
+	public void setListaValoraciones(ArrayList<Valoracion> valoraciones) {
+		this.listaValoraciones = valoraciones;
+	}
+
+	public IntegerProperty propiedadIdJuego() {
+		return idJuego;
+	}
+
+	public StringProperty propiedadNombre() {
+		return nombre;
+	}
+
+	public StringProperty propiedadEstilo() {
+		return estilo;
+	}
+
+	public ObjectProperty<Date> propiedadPublicacion() {
+		return publicacion;
+	}
+
+	public StringProperty propiedadDescripcion() {
+		return descripcion;
+	}
+
+	public DoubleProperty propiedadPrecio() {
+		return precio;
+	}
+
+	public StringProperty propiedadDesarrolladores() {
+		return desarrolladores;
+	}
+
+	public IntegerProperty propiedadValoracion() {
+		return valoracion;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + idJuego;
+		result = prime * result + idJuego.get();
 		return result;
 	}
 
@@ -121,14 +202,15 @@ public class Juego {
 		if (getClass() != obj.getClass())
 			return false;
 		Juego other = (Juego) obj;
-		if (idJuego != other.idJuego)
+		if (idJuego.get() != other.idJuego.get())
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Juego [idJuego=" + idJuego + ", nombre=" + nombre + ", estilo=" + estilo + ", publicacion="
-				+ publicacion + ", descripcion=" + descripcion + ", precio=" + precio + "]";
+		return "Juego [idJuego=" + getIdJuego() + ", nombre=" + getNombre() + ", estilo=" + getEstilo()
+				+ ", publicacion=" + getPublicacion() + ", descripcion=" + getDescripcion() + ", precio=" + getPrecio()
+				+ "]";
 	}
 }

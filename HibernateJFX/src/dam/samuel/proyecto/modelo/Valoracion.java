@@ -8,13 +8,13 @@ package dam.samuel.proyecto.modelo;
 public class Valoracion {
 
 	private int idValoracion;
-	private boolean voto;
+	private boolean positivo;
 	private String comentario;
 
 	public Valoracion(int idValoracion, boolean voto, String comentario) {
 		super();
 		this.idValoracion = idValoracion;
-		this.voto = voto;
+		this.positivo = voto;
 		this.comentario = comentario;
 	}
 
@@ -30,12 +30,12 @@ public class Valoracion {
 		this.idValoracion = idValoracion;
 	}
 
-	public boolean isVoto() {
-		return voto;
+	public boolean isPositivo() {
+		return positivo;
 	}
 
-	public void setVoto(boolean voto) {
-		this.voto = voto;
+	public void setPositivo(boolean voto) {
+		this.positivo = voto;
 	}
 
 	public String getComentario() {
@@ -70,6 +70,7 @@ public class Valoracion {
 
 	@Override
 	public String toString() {
-		return "Valoracion [idValoracion=" + idValoracion + ", voto=" + voto + ", comentario=" + comentario + "]";
+		return "Valoracion [idValoracion=" + idValoracion + ", positivo=" + positivo + ", comentario=" + comentario
+				+ "]";
 	}
 }
