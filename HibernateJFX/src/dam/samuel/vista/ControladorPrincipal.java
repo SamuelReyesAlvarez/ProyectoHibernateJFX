@@ -1,9 +1,15 @@
 package dam.samuel.vista;
 
+import dam.samuel.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Samuel Reyes Alvarez
+ *
+ */
 public class ControladorPrincipal {
 
 	@FXML
@@ -12,7 +18,8 @@ public class ControladorPrincipal {
 	@FXML
 	private Button btnNuevoDesarrollador;
 
-	private Stage stage;
+	private MainApp stage;
+	private Stage dialogPrincipal;
 
 	public ControladorPrincipal() {
 	}
@@ -27,18 +34,22 @@ public class ControladorPrincipal {
 		}
 	}
 
-	public void setStage(Stage dialogStage) {
-		this.stage = dialogStage;
+	public void setMainApp(MainApp stage) {
+		this.stage = stage;
+	}
+
+	public void setDialog(Stage stage) {
+		this.dialogPrincipal = stage;
 	}
 
 	@FXML
 	public void verJuegos() {
-
+		stage.mostrarVerJuegos();
 	}
 
 	@FXML
 	public void verDesarrolladores() {
-
+		stage.mostrarDesarrolladores();
 	}
 
 	@FXML
@@ -53,7 +64,7 @@ public class ControladorPrincipal {
 
 	@FXML
 	public void volver() {
-		stage.close();
+		dialogPrincipal.close();
 	}
 
 	@FXML

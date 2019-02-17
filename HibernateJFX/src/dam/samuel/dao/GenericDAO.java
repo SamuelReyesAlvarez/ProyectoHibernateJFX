@@ -4,6 +4,11 @@ import org.hibernate.Session;
 
 import dam.samuel.modelo.HibernateUtil;
 
+/**
+ * 
+ * @author Samuel Reyes Alvarez
+ *
+ */
 public class GenericDAO<T> {
 	public void guardar(T entidad) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();

@@ -10,6 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * 
+ * @author Samuel Reyes Alvarez
+ *
+ */
 public class ControladorLogin implements Initializable {
 
 	@FXML

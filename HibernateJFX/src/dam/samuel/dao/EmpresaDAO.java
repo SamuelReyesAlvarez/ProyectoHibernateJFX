@@ -8,6 +8,11 @@ import org.hibernate.Session;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.HibernateUtil;
 
+/**
+ * 
+ * @author Samuel Reyes Alvarez
+ *
+ */
 public class EmpresaDAO extends GenericDAO<Empresa> {
 
 	public Empresa consultarPorId(int id) {

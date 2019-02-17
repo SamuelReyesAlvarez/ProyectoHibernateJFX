@@ -9,6 +9,16 @@ import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.HibernateUtil;
 
+/**
+ * 
+ * @author Samuel Reyes Alvarez
+ * 
+ * @version 0.4.1 (16/02/2019)
+ * 
+ *          Clase de inicio para testear la implementacion de Hibernate sin uso
+ *          de JavaFX
+ *
+ */
 public class ProbandoHibernate {
 
 	private static Scanner teclado = new Scanner(System.in);
