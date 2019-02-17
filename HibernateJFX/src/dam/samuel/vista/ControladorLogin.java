@@ -17,6 +17,9 @@ import javafx.scene.control.TextField;
  */
 public class ControladorLogin implements Initializable {
 
+	private static final String admin = "admin";
+	private static final String psswd = "123456";
+
 	@FXML
 	private TextField nombre;
 	@FXML
@@ -54,8 +57,6 @@ public class ControladorLogin implements Initializable {
 
 	@FXML
 	public void entrar() {
-		String admin = stage.getAdmin();
-		String psswd = stage.getClave();
 
 		if (nombre.getText().equals(admin) && clave.getText().equals(psswd)) {
 			stage.mostrarPrincipal(true);
@@ -64,5 +65,7 @@ public class ControladorLogin implements Initializable {
 		} else {
 			error.setVisible(true);
 		}
+		nombre.setText("");
+		clave.setText("");
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import dam.samuel.vista.ControladorLogin;
 import dam.samuel.vista.ControladorPrincipal;
+import dam.samuel.vista.ControladorRegistroJuego;
 import dam.samuel.vista.ControladorVerDesarrolladores;
 import dam.samuel.vista.ControladorVerJuegos;
 import javafx.application.Application;
@@ -18,13 +19,10 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.5.0 (17/02/2019)
+ * @version 0.6.2 (17/02/2019)
  *
  */
 public class MainApp extends Application {
-
-	private static final String admin = "admin";
-	private static final String clave = "123456";
 
 	private Stage stage;
 	private Stage dialogPrincipal;
@@ -104,7 +102,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void mostrarDesarrolladores() {
+	public void mostrarVerDesarrolladores() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/VerDesarrolladores.fxml"));
@@ -128,15 +126,31 @@ public class MainApp extends Application {
 		}
 	}
 
+	public void mostrarNuevoJuego() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("vista/RegistroJuego.fxml"));
+
+			Stage dialogRegistroJuego = new Stage();
+			dialogRegistroJuego.setTitle("Valorator");
+			dialogRegistroJuego.initOwner(dialogPrincipal);
+			dialogRegistroJuego.initModality(Modality.WINDOW_MODAL);
+
+			BorderPane border = (BorderPane) loader.load();
+			Scene scene = new Scene(border);
+			dialogRegistroJuego.setScene(scene);
+			dialogRegistroJuego.setResizable(false);
+
+			ControladorRegistroJuego registroJuego = loader.<ControladorRegistroJuego>getController();
+			registroJuego.setDialog(dialogRegistroJuego);
+
+			dialogRegistroJuego.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void main(String[] args) {
 		launch(args);
-	}
-
-	public String getAdmin() {
-		return admin;
-	}
-
-	public String getClave() {
-		return clave;
 	}
 }
