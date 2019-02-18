@@ -33,3 +33,4 @@ CREATE TABLE IF NOT EXISTS valoracion(
 	CONSTRAINT pkIdValoracion PRIMARY KEY (idValoracion),
 	CONSTRAINT fkIdjuegoValoracion FOREIGN KEY (idJuego) REFERENCES juego(idJuego)
 );
+

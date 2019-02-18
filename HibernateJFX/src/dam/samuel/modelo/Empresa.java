@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 
@@ -33,6 +35,8 @@ public class Empresa implements Serializable {
 	private int idEmpresa;
 
 	@Column(name = "nombre")
+	@NotBlank
+	@Size(min = 3, max = 25)
 	private String nombre;
 
 	@OneToMany

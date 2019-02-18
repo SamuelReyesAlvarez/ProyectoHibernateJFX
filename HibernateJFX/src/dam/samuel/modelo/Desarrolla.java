@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * 
@@ -22,11 +24,15 @@ public class Desarrolla implements Serializable {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "idEmpresa")
+	@NotNull
+	@Valid
 	private Empresa empresa;
 
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "idJuego")
+	@NotNull
+	@Valid
 	private Juego juego;
 
 	public Desarrolla(Empresa empresa, Juego juego) {

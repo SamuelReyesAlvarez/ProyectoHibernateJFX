@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
@@ -31,13 +34,17 @@ public class Valoracion implements Serializable {
 
 	@Column(name = "positivo")
 	@Type(type = "boolean")
+	@NotNull
 	private boolean positivo;
 
 	@Column(name = "comentario")
+	@Size(min = 5, max = 250)
 	private String comentario;
 
 	@ManyToOne
 	@JoinColumn(name = "idJuego")
+	@NotNull
+	@Valid
 	private Juego juego;
 
 	public Valoracion(boolean voto, String comentario) {

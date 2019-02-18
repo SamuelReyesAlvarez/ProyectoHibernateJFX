@@ -17,9 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 
@@ -42,18 +47,25 @@ public class Juego implements Serializable {
 	private int idJuego;
 
 	@Column(name = "nombre")
+	@NotBlank
+	@Size(min = 3, max = 25)
 	private String nombre;
 
 	@Enumerated(EnumType.STRING)
 	private EstiloJuego estilo;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	private Date publicacion;
 
 	@Column(name = "descripcion")
+	@NotBlank
+	@Size(max = 250)
 	private String descripcion;
 
 	@Column(name = "precio")
+	@NotNull
+	@Digits(integer = 4, fraction = 2)
 	private double precio;
 
 	@OneToMany
@@ -64,6 +76,7 @@ public class Juego implements Serializable {
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
+	@Valid
 	private List<Valoracion> listaValoraciones;
 
 	public Juego(String nombre, EstiloJuego estilo, Date publicacion, String descripcion, double precio) {

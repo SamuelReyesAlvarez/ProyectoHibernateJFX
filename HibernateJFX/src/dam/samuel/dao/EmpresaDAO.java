@@ -24,7 +24,7 @@ public class EmpresaDAO extends GenericDAO<Empresa> {
 	@SuppressWarnings("unchecked")
 	public List<Empresa> consultarTodas() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query consulta = session.createQuery("SELECT e FROM empresa e");
+		Query consulta = session.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e");
 		return consulta.list();
 	}
 }
