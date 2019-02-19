@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -61,6 +63,9 @@ public class ControladorRegistroJuego implements Initializable {
 		}
 
 		comboEstilo.setItems(listaEstilos);
+		comboEstilo.getSelectionModel().selectFirst();
+
+		configurarTextPrecio();
 	}
 
 	public void setDialog(Stage stage) {
@@ -76,7 +81,12 @@ public class ControladorRegistroJuego implements Initializable {
 	private void registrar() {
 		try {
 			String nombre = textoNombre.getText();
-			EstiloJuego estilo = EstiloJuego.valueOf(comboEstilo.getValue());
+			EstiloJuego estilo;
+			if (comboEstilo.getValue().contains("<")) {
+				estilo = null;
+			} else {
+				estilo = EstiloJuego.valueOf(comboEstilo.getValue());
+			}
 			Date publicacion = Date
 					.from(datePublicacion.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 			String descripcion = textoDescripcion.getText();
@@ -100,5 +110,21 @@ public class ControladorRegistroJuego implements Initializable {
 			alerta.setContentText("Compruebe que todos los campos sean correctos");
 			alerta.showAndWait();
 		}
+	}
+
+	private void configurarTextPrecio() {
+		textoPrecio.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!Character.isDigit(newValue.charAt(0))) {
+					textoPrecio.setText(oldValue);
+				} else {
+					if (!newValue.matches("\\d{1,4}(\\.\\d{0,2})?")) {
+						textoPrecio.setText(oldValue);
+					}
+				}
+			}
+		});
 	}
 }

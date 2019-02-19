@@ -13,10 +13,8 @@ import dam.samuel.modelo.HibernateUtil;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.6.3 (16/02/2019)
- * 
- *          Clase de inicio para testear la implementacion de Hibernate sin uso
- *          de JavaFX
+ *         Clase de inicio para testear la implementacion de Hibernate sin uso
+ *         de JavaFX
  *
  */
 public class ProbandoHibernate {

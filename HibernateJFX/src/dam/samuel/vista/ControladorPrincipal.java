@@ -28,15 +28,13 @@ public class ControladorPrincipal {
 	private Stage dialogPrincipal;
 
 	public ControladorPrincipal() {
+
 	}
 
 	public void controlarOpciones(boolean esAdmin) {
 		if (!esAdmin) {
-			btnNuevoJuego.setDisable(true);
-			btnNuevoDesarrollador.setDisable(true);
-		} else {
-			btnNuevoJuego.setDisable(false);
-			btnNuevoDesarrollador.setDisable(false);
+			btnNuevoJuego.setVisible(esAdmin);
+			btnNuevoDesarrollador.setVisible(esAdmin);
 		}
 	}
 

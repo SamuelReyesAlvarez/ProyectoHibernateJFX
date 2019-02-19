@@ -10,8 +10,8 @@ import dam.samuel.vista.ControladorVerJuegos;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.6.2 (17/02/2019)
+ * @version 0.6.4 (19/02/2019)
  *
  */
 public class MainApp extends Application {
@@ -36,7 +36,7 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/Login.fxml"));
 
-			AnchorPane anchor = (AnchorPane) loader.load();
+			VBox anchor = (VBox) loader.load();
 			Scene scene = new Scene(anchor);
 			stage.setScene(scene);
 			stage.setResizable(false);

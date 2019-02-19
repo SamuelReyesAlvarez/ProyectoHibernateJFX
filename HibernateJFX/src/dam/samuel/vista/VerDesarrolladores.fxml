@@ -25,7 +25,7 @@
       <Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#volver" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
-            <Label layoutX="39.0" layoutY="17.0" prefHeight="17.0" prefWidth="85.0" text="Volver al menu" textFill="#dddddd">
+            <Label layoutX="43.0" layoutY="17.0" prefHeight="17.0" text="Volver al menu" textFill="#dddddd">
                <padding>
                   <Insets left="5.0" />
                </padding>

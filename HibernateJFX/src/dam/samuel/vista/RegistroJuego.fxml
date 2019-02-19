@@ -10,26 +10,16 @@
 <!-- @author Samuel Reyes Alvarez -->
 
 <BorderPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.samuel.vista.ControladorRegistroJuego">
-   <top>
-      <Pane prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="14.0" layoutY="12.0" text="Registro Nuevo Juego" textFill="#dddddd">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-         </children></Pane>
-   </top>
    <bottom>
       <Pane prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#volver" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
-            <Label layoutX="39.0" layoutY="16.0" text="Volver al menu" textFill="#dddddd">
+            <Label layoutX="43.0" layoutY="17.0" text="Volver al menu" textFill="#dddddd">
                <padding>
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Button layoutX="222.0" layoutY="12.0" mnemonicParsing="false" onAction="#registrar" text="Registrar" />
+            <Button layoutX="208.0" layoutY="13.0" mnemonicParsing="false" onAction="#registrar" text="Registrar" />
          </children></Pane>
    </bottom>
    <center>
@@ -48,14 +38,17 @@
          <children>
             <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" GridPane.rowIndex="1">
                <children>
-                  <Label prefWidth="91.0" text="Estilo de juego:" textFill="#dddddd">
+                  <Label text="Estilo:" textFill="#dddddd">
                      <FlowPane.margin>
                         <Insets />
                      </FlowPane.margin>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
                   </Label>
-                  <ComboBox fx:id="comboEstilo" prefWidth="158.0">
+                  <ComboBox fx:id="comboEstilo" prefWidth="150.0">
                      <FlowPane.margin>
-                        <Insets />
+                        <Insets left="50.0" />
                      </FlowPane.margin>
                   </ComboBox>
                </children>
@@ -67,8 +60,14 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" GridPane.rowIndex="2">
                <children>
-                  <Label prefWidth="73.0" text="Publicación:" textFill="#dddddd" />
-                  <DatePicker fx:id="datePublicacion" prefWidth="176.0" />
+                  <Label text="Publicación:" textFill="#dddddd">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding></Label>
+                  <DatePicker fx:id="datePublicacion" prefHeight="25.0" prefWidth="150.0">
+                     <FlowPane.margin>
+                        <Insets left="12.0" />
+                     </FlowPane.margin></DatePicker>
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="120.0" prefWidth="300.0" GridPane.rowIndex="3">
@@ -78,17 +77,40 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" GridPane.rowIndex="4">
                <children>
-                  <Label prefWidth="144.0" text="Precio de venta en €uros:" textFill="#dddddd" />
-                  <TextField fx:id="textoPrecio" prefWidth="105.0" promptText="Ejemplo: 12.95" />
+                  <Label text="Precio en €uros:" textFill="#dddddd">
+                     <FlowPane.margin>
+                        <Insets />
+                     </FlowPane.margin>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding></Label>
+                  <TextField fx:id="textoPrecio" prefWidth="135.0" promptText="Ejemplo: 12.95">
+                     <FlowPane.margin>
+                        <Insets />
+                     </FlowPane.margin></TextField>
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" GridPane.rowIndex="5">
                <children>
-                  <Label prefWidth="85.0" text="Desarrollador:" textFill="#dddddd" />
-                  <TextField fx:id="textoDesarrolladores" prefWidth="165.0" promptText="Para varios, separe con &quot;,&quot;" />
+                  <Label text="Desarrollador:" textFill="#dddddd">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding></Label>
+                  <TextField fx:id="textoDesarrolladores" prefWidth="148.0" promptText="use &quot;,&quot; para separar" />
                </children>
             </FlowPane>
          </children>
       </GridPane>
    </center>
+   <top>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Registro Nuevo Juego" textFill="#dddddd">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

@@ -14,7 +14,7 @@
 	<top>
 		<Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
 			<children>
-				<Label layoutX="14.0" layoutY="12.0" text="JUEGOS" textFill="#bbbbbb">
+				<Label layoutX="14.0" layoutY="15.0" text="JUEGOS" textFill="#bbbbbb">
 					<font>
 						<Font name="System Bold" size="18.0" />
 					</font>
@@ -38,7 +38,7 @@
 					<columns>
 						<TableColumn fx:id="columnaNombre" editable="false" text="Nombre" />
 						<TableColumn fx:id="columnaEstilo" editable="false" text="Estilo" />
-						<TableColumn fx:id="columnaFecha" editable="false" text="Fecha publicacion" />
+						<TableColumn fx:id="columnaFecha" editable="false" text="Publicacion" />
 						<TableColumn fx:id="columnaPrecio" editable="false" text="Precio" />
 						<TableColumn fx:id="columnaValoracion" editable="false" text="Valoracion" />
 					</columns>
@@ -53,7 +53,7 @@
 		<Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#volver" prefHeight="25.0" prefWidth="25.0" text="&lt;" />
-            <Label layoutX="39.0" layoutY="17.0" prefHeight="17.0" prefWidth="85.0" text="Volver al menu" textFill="#dddddd">
+            <Label layoutX="43.0" layoutY="17.0" prefHeight="17.0" text="Volver al menu" textFill="#dddddd">
                <padding>
                   <Insets left="5.0" />
                </padding>
