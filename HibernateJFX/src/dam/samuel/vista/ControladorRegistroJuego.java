@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.dao.JuegoDAO;
+import dam.samuel.modelo.Desarrolla;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
@@ -101,18 +102,7 @@ public class ControladorRegistroJuego implements Initializable {
 			Double precio = Double.parseDouble(textoPrecio.getText());
 
 			Juego juego = new Juego(nombre, estilo, publicacion, descripcion, precio);
-
-			Empresa empresa;
-			List<Empresa> empresas = new ArrayList<>();
-			String[] nombres = textoDesarrolladores.getText().replaceAll(" ", "").split(",");
-			for (String string : nombres) {
-				empresa = empresaDAO.consultaUnica(new Empresa(nombre));
-				if (empresa != null) {
-					empresas.add(empresa);
-				}
-			}
-
-			// juego.setListaDesarrolladores(empresas);
+			juego.setListaDesarrolladores(crearListaDesarrolladores(juego, crearListaEmpresas()));
 			juegoDAO.guardar(juego);
 
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
@@ -122,18 +112,43 @@ public class ControladorRegistroJuego implements Initializable {
 			alerta.showAndWait();
 			dialogRegistroJuego.close();
 		} catch (ValoratorException ve) {
-			Alert alerta = new Alert(AlertType.ERROR);
-			alerta.setTitle("Error");
-			alerta.setHeaderText("Error de registro");
-			alerta.setContentText("No se pudo guardar el nuevo juego");
-			alerta.showAndWait();
-		} catch (NullPointerException | IllegalArgumentException e) {
-			Alert alerta = new Alert(AlertType.ERROR);
-			alerta.setTitle("Error");
-			alerta.setHeaderText("Error de registro");
-			alerta.setContentText("Compruebe que todos los campos sean correctos");
-			alerta.showAndWait();
+			mostrarError("No se pudo guardar el nuevo juego");
+		} catch (IllegalArgumentException iae) {
+			mostrarError("Compruebe que todos los campos sean correctos");
+		} catch (NullPointerException npe) {
+			mostrarError("Compruebe que todos los campos estan rellenos");
 		}
+	}
+
+	private List<Empresa> crearListaEmpresas() {
+		List<Empresa> empresas = new ArrayList<>();
+		String[] nombres = textoDesarrolladores.getText().replaceAll(" ", "").split(",");
+		for (String nombre : nombres) {
+			Empresa empresa = empresaDAO.consultaUnica(new Empresa(nombre));
+			if (empresa != null) {
+				empresas.add(empresa);
+			}
+		}
+		return empresas;
+	}
+
+	private List<Desarrolla> crearListaDesarrolladores(Juego juego, List<Empresa> empresas) throws ValoratorException {
+		List<Desarrolla> desarrollo = new ArrayList<>();
+		for (Empresa empresa : empresas) {
+			Desarrolla desarrolla = new Desarrolla(empresa, juego);
+			desarrollo.add(desarrolla);
+			empresa.getJuegos().add(desarrolla);
+			empresaDAO.guardar(empresa);
+		}
+		return desarrollo;
+	}
+
+	private void mostrarError(String mensaje) {
+		Alert alerta = new Alert(AlertType.ERROR);
+		alerta.setTitle("Error");
+		alerta.setHeaderText("Error de registro");
+		alerta.setContentText(mensaje);
+		alerta.showAndWait();
 	}
 
 	private void configurarTextPrecio() {
