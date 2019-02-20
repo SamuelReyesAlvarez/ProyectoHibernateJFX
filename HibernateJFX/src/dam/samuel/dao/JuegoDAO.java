@@ -16,18 +16,23 @@ import dam.samuel.modelo.Juego.EstiloJuego;
  */
 public class JuegoDAO extends GenericDAO<Juego> {
 
+	public Juego consultarPorId(Juego juego) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		return (Juego) session.get(Juego.class, juego.getIdJuego());
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Juego> consultarTodas() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query consulta = session.createQuery("SELECT j FROM dam.samuel.modelo.Juego j");
+		Query consulta = session.createQuery("SELECT j FROM dam.samuel.modelo.Juego j ORDER BY nombre");
 		return consulta.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Juego> consultarPorEstilo(EstiloJuego estilo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query consulta = session
-				.createQuery("SELECT j FROM dam.samuel.modelo.Juego j WHERE estilo = '" + estilo.toString() + "'");
+		Query consulta = session.createQuery(
+				"SELECT j FROM dam.samuel.modelo.Juego j WHERE estilo = '" + estilo.toString() + "' ORDER BY nombre");
 		return consulta.list();
 	}
 }

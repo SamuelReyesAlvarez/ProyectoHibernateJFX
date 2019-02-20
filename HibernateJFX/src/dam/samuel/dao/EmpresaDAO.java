@@ -15,20 +15,19 @@ import dam.samuel.modelo.HibernateUtil;
  */
 public class EmpresaDAO extends GenericDAO<Empresa> {
 
-	public Empresa consultarPorId(int id) {
+	public Empresa consultarPorId(Empresa empresa) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Empresa empresa = (Empresa) session.get(Empresa.class, id);
-		return empresa;
+		return (Empresa) session.get(Empresa.class, empresa.getIdEmpresa());
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Empresa> consultarTodas() {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query consulta = session.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e");
+		Query consulta = session.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e ORDER BY nombre");
 		return consulta.list();
 	}
 
-	public Empresa consultaUnica(Empresa empresa) {
+	public Empresa consultarPorNombre(Empresa empresa) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		return (Empresa) session
 				.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e WHERE nombre = '" + empresa.getNombre() + "'")

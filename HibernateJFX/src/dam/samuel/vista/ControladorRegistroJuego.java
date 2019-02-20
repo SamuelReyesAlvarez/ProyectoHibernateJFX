@@ -40,29 +40,22 @@ public class ControladorRegistroJuego implements Initializable {
 	private JuegoDAO juegoDAO = new JuegoDAO();
 	private EmpresaDAO empresaDAO = new EmpresaDAO();
 	private ObservableList<String> listaEstilos;
-
 	private Stage dialogRegistroJuego;
 
 	@FXML
 	private TextField textoNombre;
-
 	@FXML
 	private ComboBox<String> comboEstilo;
-
 	@FXML
 	private DatePicker datePublicacion;
-
 	@FXML
 	private TextArea textoDescripcion;
-
 	@FXML
 	private TextField textoPrecio;
-
 	@FXML
 	private TextField textoDesarrolladores;
 
 	public ControladorRegistroJuego() {
-
 	}
 
 	@Override
@@ -96,7 +89,7 @@ public class ControladorRegistroJuego implements Initializable {
 			if (comboEstilo.getValue().contains("<")) {
 				estilo = null;
 			} else {
-				estilo = EstiloJuego.valueOf(comboEstilo.getValue());
+				estilo = EstiloJuego.values()[comboEstilo.getSelectionModel().getSelectedIndex() - 1];
 			}
 			Date publicacion = Date
 					.from(datePublicacion.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
@@ -107,12 +100,12 @@ public class ControladorRegistroJuego implements Initializable {
 			juego.setListaDesarrolladores(crearListaDesarrolladores(juego, crearListaEmpresas()));
 			juegoDAO.guardar(juego);
 
-			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			Alert alerta = new Alert(AlertType.INFORMATION);
 			alerta.setTitle("Confirmacion");
 			alerta.setHeaderText("Mensaje de registro");
 			alerta.setContentText("Se ha registrado un nuevo Juego");
 			alerta.showAndWait();
-			dialogRegistroJuego.close();
+			volver();
 		} catch (ValoratorException ve) {
 			mostrarError("No se pudo guardar el nuevo juego");
 		} catch (IllegalArgumentException iae) {
@@ -126,9 +119,9 @@ public class ControladorRegistroJuego implements Initializable {
 
 	private List<Empresa> crearListaEmpresas() {
 		List<Empresa> empresas = new ArrayList<>();
-		String[] nombres = textoDesarrolladores.getText().replaceAll(" ", "").split(",");
+		String[] nombres = textoDesarrolladores.getText().split(",");
 		for (String nombre : nombres) {
-			Empresa empresa = empresaDAO.consultaUnica(new Empresa(nombre));
+			Empresa empresa = empresaDAO.consultarPorNombre(new Empresa(nombre.trim()));
 			if (empresa != null) {
 				empresas.add(empresa);
 			}

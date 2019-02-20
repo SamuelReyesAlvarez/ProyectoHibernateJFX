@@ -72,7 +72,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="120.0" prefWidth="300.0" GridPane.rowIndex="3">
                <children>
-                  <TextArea fx:id="textoDescripcion" prefHeight="120.0" prefWidth="250.0" promptText="Descripción del juego" />
+                  <TextArea fx:id="textoDescripcion" prefHeight="120.0" prefWidth="250.0" promptText="Descripción del juego" wrapText="true" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="300.0" GridPane.rowIndex="4">

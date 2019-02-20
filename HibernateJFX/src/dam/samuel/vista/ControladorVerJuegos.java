@@ -33,6 +33,8 @@ public class ControladorVerJuegos implements Initializable {
 	private JuegoDAO juegoDAO = new JuegoDAO();
 	private ObservableList<Juego> listaJuegos;
 	private ObservableList<String> listaEstilos;
+	private MainApp stage;
+	private Stage dialogVerJuegos;
 
 	@FXML
 	private TableView<Juego> tabla;
@@ -51,11 +53,7 @@ public class ControladorVerJuegos implements Initializable {
 	@FXML
 	private Button botonValorar;
 
-	private MainApp stage;
-	private Stage dialogVerJuegos;
-
 	public ControladorVerJuegos() {
-
 	}
 
 	@Override

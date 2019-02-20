@@ -3,6 +3,7 @@ package dam.samuel.vista;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import dam.samuel.dao.JuegoDAO;
+import dam.samuel.dao.ValoracionDAO;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Valoracion;
 import dam.samuel.modelo.ValoratorException;
@@ -22,7 +23,10 @@ import javafx.stage.Stage;
  */
 public class ControladorValorarJuego {
 
+	private ValoracionDAO valoracionDAO = new ValoracionDAO();
 	private JuegoDAO juegoDAO = new JuegoDAO();
+	private Stage dialogValorarJuego;
+	private Juego juego;
 
 	@FXML
 	private TextField textoNombre;
@@ -43,12 +47,7 @@ public class ControladorValorarJuego {
 	@FXML
 	private ToggleButton botonNegativo;
 
-	private Stage dialogValorarJuego;
-
-	private Juego juego;
-
 	public ControladorValorarJuego() {
-
 	}
 
 	public void setDialog(Stage stage) {
@@ -64,16 +63,25 @@ public class ControladorValorarJuego {
 	public void valorar() {
 		boolean voto;
 		if (!botonPositivo.isSelected() && !botonNegativo.isSelected()) {
-			mostrarError("Debes elegir votar positivo o negativo para guardar tu valoracion");
+			mostrarError("Debes votar positivo o negativo");
 		} else {
 			if (botonPositivo.isSelected()) {
 				voto = true;
 			} else {
 				voto = false;
 			}
-			juego.getListaValoraciones().add(new Valoracion(voto, textoComentario.getText()));
+			Valoracion valoracion = new Valoracion(voto, textoComentario.getText());
+			valoracion.setJuego(juego);
+
+			Alert alerta = new Alert(AlertType.INFORMATION);
+			alerta.setTitle("Confirmacion");
+			alerta.setHeaderText("Mensaje de registro");
+			alerta.setContentText("Se ha registrado la valoracion");
+			alerta.showAndWait();
+
+			volver();
 			try {
-				juegoDAO.guardar(juego);
+				valoracionDAO.guardar(valoracion);
 			} catch (MySQLIntegrityConstraintViolationException e) {
 				mostrarError("No se pudo guardar la valoracion");
 			} catch (ValoratorException e) {
@@ -101,6 +109,6 @@ public class ControladorValorarJuego {
 	}
 
 	public void setJuego(Juego juego) {
-		this.juego = juego;
+		this.juego = juegoDAO.consultarPorId(juego);
 	}
 }

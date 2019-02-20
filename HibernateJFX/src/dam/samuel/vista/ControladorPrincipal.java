@@ -1,21 +1,8 @@
 package dam.samuel.vista;
 
-import java.util.Optional;
-
-import org.hibernate.Session;
-
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
 import dam.samuel.MainApp;
-import dam.samuel.dao.EmpresaDAO;
-import dam.samuel.modelo.Empresa;
-import dam.samuel.modelo.HibernateUtil;
-import dam.samuel.modelo.ValoratorException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 /**
@@ -24,9 +11,6 @@ import javafx.stage.Stage;
  *
  */
 public class ControladorPrincipal {
-
-	private EmpresaDAO empresaDAO = new EmpresaDAO();
-	private Session session;
 
 	@FXML
 	private Button btnNuevoJuego;
@@ -38,7 +22,6 @@ public class ControladorPrincipal {
 	private Stage dialogPrincipal;
 
 	public ControladorPrincipal() {
-		configurarSesion();
 	}
 
 	public void controlarOpciones(boolean esAdmin) {
@@ -73,60 +56,16 @@ public class ControladorPrincipal {
 
 	@FXML
 	public void nuevoDesarrollador() {
-		TextInputDialog entradaTexto = new TextInputDialog();
-		entradaTexto.setTitle("Registro de Empresa desarrolladora");
-		entradaTexto.setHeaderText("Nueva empresa desarrolladora");
-		entradaTexto.setContentText("Nombre:");
-
-		Optional<String> nombre = entradaTexto.showAndWait();
-
-		try {
-			if (!nombre.get().isEmpty()) {
-				Empresa nuevaEmpresa = new Empresa(nombre.get());
-				empresaDAO.guardar(nuevaEmpresa);
-
-				Alert alerta = new Alert(AlertType.CONFIRMATION);
-				alerta.setTitle("Confirmacion");
-				alerta.setHeaderText("Mensaje de registro");
-				alerta.setContentText("Se ha registrado una nueva Empresa desarrolladora");
-				alerta.showAndWait();
-			} else {
-				mostrarError("Es necesario introducir un nombre");
-			}
-		} catch (ValoratorException e) {
-			mostrarError("No se pudo guardar la nueva empresa");
-		} catch (MySQLIntegrityConstraintViolationException e) {
-			mostrarError("Ya existe una empresa con ese nombre");
-		}
-	}
-
-	private void mostrarError(String mensaje) {
-		Alert alerta = new Alert(AlertType.ERROR);
-		alerta.setTitle("Error");
-		alerta.setHeaderText("Error de registro");
-		alerta.setContentText(mensaje);
-		alerta.showAndWait();
+		stage.mostrarNuevoDesarrollador();
 	}
 
 	@FXML
 	public void volver() {
-		cerrarSesion();
 		dialogPrincipal.close();
 	}
 
 	@FXML
 	public void salir() {
-		cerrarSesion();
 		System.exit(0);
-	}
-
-	private void cerrarSesion() {
-		HibernateUtil.closeSessionFactory();
-	}
-
-	private void configurarSesion() {
-		HibernateUtil.buildSessionFactory();
-		HibernateUtil.openSessionAndBindToThread();
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 }

@@ -32,7 +32,7 @@ public class Valoracion implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idValoracion;
 
-	@Column(name = "positivo")
+	@Column(name = "voto")
 	@Type(type = "boolean")
 	@NotNull
 	private boolean positivo;
@@ -78,6 +78,14 @@ public class Valoracion implements Serializable {
 
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
+	}
+
+	public Juego getJuego() {
+		return juego;
+	}
+
+	public void setJuego(Juego juego) {
+		this.juego = juego;
 	}
 
 	@Override

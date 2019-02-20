@@ -26,14 +26,12 @@ public class ControladorVerDesarrolladores {
 	private EmpresaDAO empresaDAO = new EmpresaDAO();
 	private ObservableList<Empresa> listaEmpresas;
 	private ObservableList<Juego> listaJuegos;
-
 	private Stage dialogVerDesarrolladores;
 
 	@FXML
 	private TableView<Empresa> tablaEmpresa;
 	@FXML
 	private TableColumn<Empresa, String> columnaEmpresa;
-
 	@FXML
 	private TableView<Juego> tablaJuego;
 	@FXML
@@ -46,7 +44,6 @@ public class ControladorVerDesarrolladores {
 	private TableColumn<Juego, Double> columnaPrecio;
 
 	public ControladorVerDesarrolladores() {
-
 	}
 
 	@FXML
@@ -79,7 +76,7 @@ public class ControladorVerDesarrolladores {
 		listaJuegos = FXCollections.observableArrayList();
 		Empresa emp;
 		if (empresa != null) {
-			emp = empresaDAO.consultaUnica(empresa);
+			emp = empresaDAO.consultarPorNombre(empresa);
 
 			for (Desarrolla juego : emp.getJuegos()) {
 				listaJuegos.add(juego.getJuego());
