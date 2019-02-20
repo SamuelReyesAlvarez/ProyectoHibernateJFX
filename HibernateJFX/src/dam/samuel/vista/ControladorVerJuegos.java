@@ -129,6 +129,7 @@ public class ControladorVerJuegos implements Initializable {
 		}
 
 		for (Juego juego : list) {
+			juego.setValoracion();
 			listaJuegos.add(juego);
 		}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -33,15 +34,29 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Button fx:id="botonValorar" layoutX="220.0" layoutY="13.0" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
-            <HBox layoutX="160.0" layoutY="13.0" spacing="5.0">
+            <HBox layoutX="142.0" layoutY="13.0" spacing="5.0">
                <children>
                   <ToggleButton fx:id="botonPositivo" layoutX="131.0" layoutY="13.0" mnemonicParsing="false" prefWidth="25.0">
                      <toggleGroup>
                         <ToggleGroup fx:id="grupoVoto" />
                      </toggleGroup>
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../img/me-gusta.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="botonNegativo" layoutX="156.0" layoutY="13.0" mnemonicParsing="false" prefWidth="25.0" toggleGroup="$grupoVoto" />
+                  <ToggleButton fx:id="botonNegativo" layoutX="156.0" layoutY="13.0" mnemonicParsing="false" prefWidth="25.0" toggleGroup="$grupoVoto">
+                     <graphic>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../img/no-me-gusta.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></ToggleButton>
+                  <Button fx:id="botonValorar" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -69,13 +84,13 @@
                   <Insets bottom="5.0" left="15.0" right="15.0" top="5.0" />
                </padding>
                <children>
-                  <TextField fx:id="textNombre" editable="false" promptText="Nombre Juego" />
-                  <TextField fx:id="textPrecio" editable="false" prefWidth="94.0" promptText="Precio">
+                  <TextField fx:id="textoNombre" editable="false" promptText="Nombre Juego" />
+                  <TextField fx:id="textoPrecio" editable="false" prefWidth="94.0" promptText="Precio">
                      <FlowPane.margin>
                         <Insets left="5.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextField fx:id="textEstilo" editable="false" prefWidth="130.0" promptText="Estilo">
+                  <TextField fx:id="textoEstilo" editable="false" prefWidth="130.0" promptText="Estilo">
                      <FlowPane.margin>
                         <Insets top="5.0" />
                      </FlowPane.margin>
@@ -85,7 +100,7 @@
                         <Insets left="5.0" top="5.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextArea fx:id="textDescripcion" editable="false" prefHeight="100.0" prefWidth="270.0" promptText="Descripcion" wrapText="true">
+                  <TextArea fx:id="textoDescripcion" editable="false" prefHeight="100.0" prefWidth="270.0" promptText="Descripcion" wrapText="true">
                      <FlowPane.margin>
                         <Insets top="5.0" />
                      </FlowPane.margin>

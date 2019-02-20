@@ -1,15 +1,17 @@
+DROP DATABASE valorator;
+
 CREATE DATABASE IF NOT EXISTS valorator;
 USE valorator;
 
 CREATE TABLE IF NOT EXISTS empresa(
 	idEmpresa INTEGER AUTO_INCREMENT NOT NULL,
-	nombre VARCHAR (25) NOT NULL,
+	nombre VARCHAR (25) NOT NULL UNIQUE,
 	CONSTRAINT pkIdEmpresa PRIMARY KEY (idEmpresa)
 );
 
 CREATE TABLE IF NOT EXISTS juego(
 	idJuego INTEGER AUTO_INCREMENT NOT NULL,
-	nombre VARCHAR (25) NOT NULL,
+	nombre VARCHAR (25) NOT NULL UNIQUE,
 	estilo VARCHAR (15) NULL,
 	publicacion DATE NOT NULL,
 	descripcion VARCHAR (250) NULL,
@@ -29,8 +31,7 @@ CREATE TABLE IF NOT EXISTS valoracion(
 	idValoracion INTEGER AUTO_INCREMENT NOT NULL,
 	idJuego INTEGER NOT NULL,
 	voto TINYINT NOT NULL,
-	comentario VARCHAR (250) NULL,
+	comentario VARCHAR (250) NOT NULL,
 	CONSTRAINT pkIdValoracion PRIMARY KEY (idValoracion),
 	CONSTRAINT fkIdjuegoValoracion FOREIGN KEY (idJuego) REFERENCES juego(idJuego)
 );
-

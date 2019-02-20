@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.dao.JuegoDAO;
 import dam.samuel.modelo.Desarrolla;
@@ -117,6 +119,8 @@ public class ControladorRegistroJuego implements Initializable {
 			mostrarError("Compruebe que todos los campos sean correctos");
 		} catch (NullPointerException npe) {
 			mostrarError("Compruebe que todos los campos estan rellenos");
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			mostrarError("Ya existe un juego con ese nombre");
 		}
 	}
 
@@ -137,8 +141,6 @@ public class ControladorRegistroJuego implements Initializable {
 		for (Empresa empresa : empresas) {
 			Desarrolla desarrolla = new Desarrolla(empresa, juego);
 			desarrollo.add(desarrolla);
-			empresa.getJuegos().add(desarrolla);
-			empresaDAO.guardar(empresa);
 		}
 		return desarrollo;
 	}

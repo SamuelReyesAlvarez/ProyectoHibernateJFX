@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.hibernate.Session;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import dam.samuel.MainApp;
 import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.modelo.Empresa;
@@ -89,19 +91,21 @@ public class ControladorPrincipal {
 				alerta.setContentText("Se ha registrado una nueva Empresa desarrolladora");
 				alerta.showAndWait();
 			} else {
-				Alert alerta = new Alert(AlertType.ERROR);
-				alerta.setTitle("Error");
-				alerta.setHeaderText("Error de registro");
-				alerta.setContentText("Es necesario introducir un nombre");
-				alerta.showAndWait();
+				mostrarError("Es necesario introducir un nombre");
 			}
 		} catch (ValoratorException e) {
-			Alert alerta = new Alert(AlertType.ERROR);
-			alerta.setTitle("Error");
-			alerta.setHeaderText("Error de registro");
-			alerta.setContentText("No se pudo guardar la nueva empresa");
-			alerta.showAndWait();
+			mostrarError("No se pudo guardar la nueva empresa");
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			mostrarError("Ya existe una empresa con ese nombre");
 		}
+	}
+
+	private void mostrarError(String mensaje) {
+		Alert alerta = new Alert(AlertType.ERROR);
+		alerta.setTitle("Error");
+		alerta.setHeaderText("Error de registro");
+		alerta.setContentText(mensaje);
+		alerta.showAndWait();
 	}
 
 	@FXML

@@ -1,16 +1,18 @@
 package dam.samuel.vista;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
+import dam.samuel.dao.JuegoDAO;
 import dam.samuel.modelo.Juego;
+import dam.samuel.modelo.Valoracion;
+import dam.samuel.modelo.ValoratorException;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -18,7 +20,9 @@ import javafx.stage.Stage;
  * @author Samuel Reyes Alvarez
  *
  */
-public class ControladorValorarJuego implements Initializable {
+public class ControladorValorarJuego {
+
+	private JuegoDAO juegoDAO = new JuegoDAO();
 
 	@FXML
 	private TextField textoNombre;
@@ -29,9 +33,9 @@ public class ControladorValorarJuego implements Initializable {
 	@FXML
 	private TextField textoPublicacion;
 	@FXML
-	private TextField textoDescripcion;
+	private TextArea textoDescripcion;
 	@FXML
-	private TextField textoComentario;
+	private TextArea textoComentario;
 	@FXML
 	private Button botonValorar;
 	@FXML
@@ -47,18 +51,6 @@ public class ControladorValorarJuego implements Initializable {
 
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-		textoNombre.setText(juego.getNombre());
-		textoPrecio.setText(String.valueOf(juego.getPrecio()));
-		textoEstilo.setText(juego.getEstilo().toString());
-		textoPublicacion.setText(String.format("dd/MM/yyyy", juego.getPublicacion()));
-		textoDescripcion.setText(juego.getDescripcion());
-
-		imagenesBotones();
-	}
-
 	public void setDialog(Stage stage) {
 		this.dialogValorarJuego = stage;
 	}
@@ -70,19 +62,42 @@ public class ControladorValorarJuego implements Initializable {
 
 	@FXML
 	public void valorar() {
-
-		// TODO crear valoracion e incluirla al juego
+		boolean voto;
+		if (!botonPositivo.isSelected() && !botonNegativo.isSelected()) {
+			mostrarError("Debes elegir votar positivo o negativo para guardar tu valoracion");
+		} else {
+			if (botonPositivo.isSelected()) {
+				voto = true;
+			} else {
+				voto = false;
+			}
+			juego.getListaValoraciones().add(new Valoracion(voto, textoComentario.getText()));
+			try {
+				juegoDAO.guardar(juego);
+			} catch (MySQLIntegrityConstraintViolationException e) {
+				mostrarError("No se pudo guardar la valoracion");
+			} catch (ValoratorException e) {
+				mostrarError(e.getMessage());
+			}
+		}
 	}
 
-	private void imagenesBotones() {
-		URL linkPositivo = getClass().getResource("img/me-gusta.png");
-		URL linkNegativo = getClass().getResource("img/no-me-gusta.png");
+	private void mostrarError(String mensaje) {
+		Alert alerta = new Alert(AlertType.ERROR);
+		alerta.setTitle("Error");
+		alerta.setHeaderText("Error de registro");
+		alerta.setContentText(mensaje);
+		alerta.showAndWait();
+	}
 
-		Image imagenPositivo = new Image(linkPositivo.toString(), 24, 24, false, true);
-		Image imagenNegativo = new Image(linkNegativo.toString(), 24, 24, false, true);
-
-		botonPositivo.setGraphic(new ImageView(imagenPositivo));
-		botonNegativo.setGraphic(new ImageView(imagenNegativo));
+	public void mostrarDatosJuego() {
+		textoNombre.setText(juego.getNombre());
+		textoPrecio.setText(String.valueOf(juego.getPrecio()));
+		if (juego.getEstilo() != null) {
+			textoEstilo.setText(juego.getEstilo().toString());
+		}
+		textoPublicacion.setText(juego.getPublicacion().toString());
+		textoDescripcion.setText(juego.getDescripcion());
 	}
 
 	public void setJuego(Juego juego) {

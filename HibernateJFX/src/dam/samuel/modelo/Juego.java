@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -59,7 +60,6 @@ public class Juego implements Serializable {
 	private Date publicacion;
 
 	@Column(name = "descripcion")
-	@NotBlank
 	@Size(max = 250)
 	private String descripcion;
 
@@ -78,6 +78,9 @@ public class Juego implements Serializable {
 	@JoinColumn(name = "idJuego")
 	@Valid
 	private List<Valoracion> listaValoraciones;
+
+	@Transient
+	private int valoracion;
 
 	public Juego(String nombre, EstiloJuego estilo, Date publicacion, String descripcion, double precio) {
 		this.nombre = nombre;
@@ -155,6 +158,27 @@ public class Juego implements Serializable {
 
 	public void setListaValoraciones(List<Valoracion> listaValoraciones) {
 		this.listaValoraciones = listaValoraciones;
+	}
+
+	public int getValoracion() {
+		return valoracion;
+	}
+
+	public void setValoracion() {
+		int totalVotos = getListaValoraciones().size();
+		int votosPositivos = 0;
+
+		for (Valoracion valoracion : listaValoraciones) {
+			if (valoracion.isPositivo()) {
+				votosPositivos++;
+			}
+		}
+
+		if (totalVotos != 0) {
+			valoracion = votosPositivos * 100 / totalVotos;
+		} else {
+			valoracion = 0;
+		}
 	}
 
 	@Override

@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.7.6 (20/02/2019)
+ * @version 0.7.7 (20/02/2019)
  *
  */
 public class MainApp extends Application {
@@ -173,6 +173,7 @@ public class MainApp extends Application {
 			ControladorValorarJuego valorarJuego = loader.<ControladorValorarJuego>getController();
 			valorarJuego.setJuego(juego);
 			valorarJuego.setDialog(dialogValorarJuego);
+			valorarJuego.mostrarDatosJuego();
 
 			dialogValorarJuego.showAndWait();
 		} catch (IOException e) {

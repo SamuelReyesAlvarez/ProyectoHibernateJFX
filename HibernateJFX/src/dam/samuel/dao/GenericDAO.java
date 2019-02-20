@@ -4,6 +4,8 @@ import javax.validation.ConstraintViolationException;
 
 import org.hibernate.Session;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import dam.samuel.modelo.HibernateUtil;
 import dam.samuel.modelo.ValoratorException;
 
@@ -13,7 +15,7 @@ import dam.samuel.modelo.ValoratorException;
  *
  */
 public class GenericDAO<T> {
-	public void guardar(T entidad) throws ValoratorException {
+	public void guardar(T entidad) throws ValoratorException, MySQLIntegrityConstraintViolationException {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
