@@ -1,7 +1,10 @@
 package dam.samuel.vista;
 
 import java.util.Date;
+import java.util.List;
 
+import dam.samuel.dao.EmpresaDAO;
+import dam.samuel.modelo.Desarrolla;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
@@ -20,6 +23,7 @@ import javafx.stage.Stage;
  */
 public class ControladorVerDesarrolladores {
 
+	private EmpresaDAO empresaDAO = new EmpresaDAO();
 	private ObservableList<Empresa> listaEmpresas;
 	private ObservableList<Juego> listaJuegos;
 
@@ -48,12 +52,18 @@ public class ControladorVerDesarrolladores {
 	@FXML
 	private void initialize() {
 		listaEmpresas = FXCollections.observableArrayList();
+		List<Empresa> list = empresaDAO.consultarTodas();
 
-		listaEmpresas.add(null);
+		for (Empresa empresa : list) {
+			listaEmpresas.add(empresa);
+		}
 
 		columnaEmpresa.setCellValueFactory(new PropertyValueFactory<Empresa, String>("nombre"));
+		tablaEmpresa.setItems(listaEmpresas);
 
 		mostrarJuegosDeEmpresa(null);
+		tablaEmpresa.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
+				newValue) -> mostrarJuegosDeEmpresa(tablaEmpresa.getSelectionModel().getSelectedItem()));
 	}
 
 	public void setDialog(Stage stage) {
@@ -67,12 +77,13 @@ public class ControladorVerDesarrolladores {
 
 	public void mostrarJuegosDeEmpresa(Empresa empresa) {
 		listaJuegos = FXCollections.observableArrayList();
+		Empresa emp;
+		if (empresa != null) {
+			emp = empresaDAO.consultaUnica(empresa);
 
-		if (empresa == null) {
-			listaJuegos = null;
-		} else {
-			// TODO buscar en BD juegos de una empresa y cargar en el listado
-			listaJuegos.add(null);
+			for (Desarrolla juego : emp.getJuegos()) {
+				listaJuegos.add(juego.getJuego());
+			}
 		}
 
 		columnaJuego.setCellValueFactory(new PropertyValueFactory<Juego, String>("nombre"));

@@ -2,15 +2,22 @@ package dam.samuel.vista;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import dam.samuel.MainApp;
+import dam.samuel.dao.JuegoDAO;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,6 +30,7 @@ import javafx.stage.Stage;
  */
 public class ControladorVerJuegos implements Initializable {
 
+	private JuegoDAO juegoDAO = new JuegoDAO();
 	private ObservableList<Juego> listaJuegos;
 	private ObservableList<String> listaEstilos;
 
@@ -40,7 +48,10 @@ public class ControladorVerJuegos implements Initializable {
 	private TableColumn<Juego, Integer> columnaValoracion;
 	@FXML
 	private ComboBox<String> comboBox;
+	@FXML
+	private Button botonValorar;
 
+	private MainApp stage;
 	private Stage dialogVerJuegos;
 
 	public ControladorVerJuegos() {
@@ -58,17 +69,26 @@ public class ControladorVerJuegos implements Initializable {
 		comboBox.setItems(listaEstilos);
 		comboBox.getSelectionModel().selectFirst();
 
-		listaJuegos = FXCollections.observableArrayList();
-		// TODO buscar en BD juegos por estilo seleccionado y cargar liestado
-		listaJuegos = null;
+		cargarPorEstilo();
 
-		columnaNombre.setCellValueFactory(new PropertyValueFactory<Juego, String>("nombre"));
-		columnaEstilo.setCellValueFactory(new PropertyValueFactory<Juego, EstiloJuego>("estilo"));
-		columnaFecha.setCellValueFactory(new PropertyValueFactory<Juego, Date>("publicacion"));
-		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
-		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, Integer>("valoracion"));
+		botonValorar.setDisable(true);
 
-		tabla.setItems(listaJuegos);
+		tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Juego>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Juego> observable, Juego oldValue, Juego newValue) {
+				if (newValue == null) {
+					botonValorar.setDisable(true);
+				} else {
+					botonValorar.setDisable(false);
+				}
+			}
+		});
+	}
+
+	public void setMainApp(MainApp stage) {
+		this.stage = stage;
 	}
 
 	public void setDialog(Stage stage) {
@@ -80,7 +100,44 @@ public class ControladorVerJuegos implements Initializable {
 		dialogVerJuegos.close();
 	}
 
+	@FXML
+	public void valorar() {
+		Juego juego = tabla.getSelectionModel().getSelectedItem();
+		stage.mostrarValorarJuego(juego);
+	}
+
 	public void cargarPorEstilo() {
-		// TODO busqueda en BD por el estilo seleccionado
+		listaJuegos = FXCollections.observableArrayList();
+		List<Juego> list = null;
+
+		switch (comboBox.getSelectionModel().getSelectedItem()) {
+		case "TODOS":
+			list = juegoDAO.consultarTodas();
+			break;
+		case "ROL":
+			list = juegoDAO.consultarPorEstilo(EstiloJuego.rol);
+			break;
+		case "ACCION":
+			list = juegoDAO.consultarPorEstilo(EstiloJuego.accion);
+			break;
+		case "AVENTURA":
+			list = juegoDAO.consultarPorEstilo(EstiloJuego.aventura);
+			break;
+		case "ESTRATEGIA":
+			list = juegoDAO.consultarPorEstilo(EstiloJuego.estrategia);
+			break;
+		}
+
+		for (Juego juego : list) {
+			listaJuegos.add(juego);
+		}
+
+		columnaNombre.setCellValueFactory(new PropertyValueFactory<Juego, String>("nombre"));
+		columnaEstilo.setCellValueFactory(new PropertyValueFactory<Juego, EstiloJuego>("estilo"));
+		columnaFecha.setCellValueFactory(new PropertyValueFactory<Juego, Date>("publicacion"));
+		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
+		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, Integer>("valoracion"));
+
+		tabla.setItems(listaJuegos);
 	}
 }

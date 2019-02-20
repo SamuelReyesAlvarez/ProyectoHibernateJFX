@@ -58,6 +58,7 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
+            <Button fx:id="botonValorar" layoutX="532.0" layoutY="13.0" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
          </children></Pane>
 	</bottom>
 </BorderPane>

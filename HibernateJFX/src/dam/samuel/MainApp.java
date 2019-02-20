@@ -2,9 +2,11 @@ package dam.samuel;
 
 import java.io.IOException;
 
+import dam.samuel.modelo.Juego;
 import dam.samuel.vista.ControladorLogin;
 import dam.samuel.vista.ControladorPrincipal;
 import dam.samuel.vista.ControladorRegistroJuego;
+import dam.samuel.vista.ControladorValorarJuego;
 import dam.samuel.vista.ControladorVerDesarrolladores;
 import dam.samuel.vista.ControladorVerJuegos;
 import javafx.application.Application;
@@ -26,9 +28,11 @@ public class MainApp extends Application {
 
 	private Stage stage;
 	private Stage dialogPrincipal;
+	private Stage dialogVerJuegos;
 
 	@Override
 	public void start(Stage primaryStage) {
+
 		try {
 			stage = primaryStage;
 			stage.setTitle("Inicio de sesion");
@@ -83,7 +87,7 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/VerJuegos.fxml"));
 
-			Stage dialogVerJuegos = new Stage();
+			dialogVerJuegos = new Stage();
 			dialogVerJuegos.setTitle("Valorator");
 			dialogVerJuegos.initOwner(dialogPrincipal);
 			dialogVerJuegos.initModality(Modality.WINDOW_MODAL);
@@ -94,6 +98,7 @@ public class MainApp extends Application {
 			dialogVerJuegos.setResizable(false);
 
 			ControladorVerJuegos verJuegos = loader.<ControladorVerJuegos>getController();
+			verJuegos.setMainApp(this);
 			verJuegos.setDialog(dialogVerJuegos);
 
 			dialogVerJuegos.showAndWait();
@@ -145,6 +150,31 @@ public class MainApp extends Application {
 			registroJuego.setDialog(dialogRegistroJuego);
 
 			dialogRegistroJuego.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void mostrarValorarJuego(Juego juego) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("vista/ValorarJuego.fxml"));
+
+			Stage dialogValorarJuego = new Stage();
+			dialogValorarJuego.setTitle("Valorator");
+			dialogValorarJuego.initOwner(dialogVerJuegos);
+			dialogValorarJuego.initModality(Modality.WINDOW_MODAL);
+
+			BorderPane border = (BorderPane) loader.load();
+			Scene scene = new Scene(border);
+			dialogValorarJuego.setScene(scene);
+			dialogValorarJuego.setResizable(false);
+
+			ControladorValorarJuego valorarJuego = loader.<ControladorValorarJuego>getController();
+			valorarJuego.setJuego(juego);
+			valorarJuego.setDialog(dialogValorarJuego);
+
+			dialogValorarJuego.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

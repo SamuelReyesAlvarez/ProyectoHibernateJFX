@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #273746;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<!-- @author Samuel Reyes Alvarez -->
+
+<BorderPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #273746;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.samuel.vista.ControladorValorarJuego">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,6 +34,19 @@
                </padding>
             </Label>
             <Button fx:id="botonValorar" layoutX="220.0" layoutY="13.0" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
+            <HBox layoutX="160.0" layoutY="13.0" spacing="5.0">
+               <children>
+                  <ToggleButton fx:id="botonPositivo" layoutX="131.0" layoutY="13.0" mnemonicParsing="false" prefWidth="25.0">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="grupoVoto" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="botonNegativo" layoutX="156.0" layoutY="13.0" mnemonicParsing="false" prefWidth="25.0" toggleGroup="$grupoVoto" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
          </children>
       </Pane>
    </bottom>

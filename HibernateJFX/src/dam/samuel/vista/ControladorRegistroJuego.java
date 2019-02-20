@@ -2,11 +2,17 @@ package dam.samuel.vista;
 
 import java.net.URL;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import dam.samuel.dao.EmpresaDAO;
+import dam.samuel.dao.JuegoDAO;
+import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
+import dam.samuel.modelo.ValoratorException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,6 +34,8 @@ import javafx.stage.Stage;
  */
 public class ControladorRegistroJuego implements Initializable {
 
+	private JuegoDAO juegoDAO = new JuegoDAO();
+	private EmpresaDAO empresaDAO = new EmpresaDAO();
 	private ObservableList<String> listaEstilos;
 
 	private Stage dialogRegistroJuego;
@@ -94,8 +102,18 @@ public class ControladorRegistroJuego implements Initializable {
 
 			Juego juego = new Juego(nombre, estilo, publicacion, descripcion, precio);
 
-			// TODO comprobar las empresas desarrolladoras
-			// TODO almacenar el objeto en la BD y su relacion en Desarrolla
+			Empresa empresa;
+			List<Empresa> empresas = new ArrayList<>();
+			String[] nombres = textoDesarrolladores.getText().replaceAll(" ", "").split(",");
+			for (String string : nombres) {
+				empresa = empresaDAO.consultaUnica(new Empresa(nombre));
+				if (empresa != null) {
+					empresas.add(empresa);
+				}
+			}
+
+			// juego.setListaDesarrolladores(empresas);
+			juegoDAO.guardar(juego);
 
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
 			alerta.setTitle("Confirmacion");
@@ -103,6 +121,12 @@ public class ControladorRegistroJuego implements Initializable {
 			alerta.setContentText("Se ha registrado un nuevo Juego");
 			alerta.showAndWait();
 			dialogRegistroJuego.close();
+		} catch (ValoratorException ve) {
+			Alert alerta = new Alert(AlertType.ERROR);
+			alerta.setTitle("Error");
+			alerta.setHeaderText("Error de registro");
+			alerta.setContentText("No se pudo guardar el nuevo juego");
+			alerta.showAndWait();
 		} catch (NullPointerException | IllegalArgumentException e) {
 			Alert alerta = new Alert(AlertType.ERROR);
 			alerta.setTitle("Error");
@@ -120,7 +144,7 @@ public class ControladorRegistroJuego implements Initializable {
 				if (!Character.isDigit(newValue.charAt(0))) {
 					textoPrecio.setText(oldValue);
 				} else {
-					if (!newValue.matches("\\d{1,4}(\\.\\d{0,2})?")) {
+					if (!newValue.matches("\\d{1,4}([\\.\\,]\\d{0,2})?")) {
 						textoPrecio.setText(oldValue);
 					}
 				}

@@ -27,4 +27,11 @@ public class EmpresaDAO extends GenericDAO<Empresa> {
 		Query consulta = session.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e");
 		return consulta.list();
 	}
+
+	public Empresa consultaUnica(Empresa empresa) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		return (Empresa) session
+				.createQuery("SELECT e FROM dam.samuel.modelo.Empresa e WHERE nombre = '" + empresa.getNombre() + "'")
+				.uniqueResult();
+	}
 }

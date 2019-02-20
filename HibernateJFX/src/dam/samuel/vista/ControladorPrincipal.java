@@ -2,8 +2,13 @@ package dam.samuel.vista;
 
 import java.util.Optional;
 
+import org.hibernate.Session;
+
 import dam.samuel.MainApp;
+import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.modelo.Empresa;
+import dam.samuel.modelo.HibernateUtil;
+import dam.samuel.modelo.ValoratorException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -18,6 +23,9 @@ import javafx.stage.Stage;
  */
 public class ControladorPrincipal {
 
+	private EmpresaDAO empresaDAO = new EmpresaDAO();
+	private Session session;
+
 	@FXML
 	private Button btnNuevoJuego;
 
@@ -28,7 +36,7 @@ public class ControladorPrincipal {
 	private Stage dialogPrincipal;
 
 	public ControladorPrincipal() {
-
+		configurarSesion();
 	}
 
 	public void controlarOpciones(boolean esAdmin) {
@@ -70,30 +78,51 @@ public class ControladorPrincipal {
 
 		Optional<String> nombre = entradaTexto.showAndWait();
 
-		if (!nombre.get().isEmpty()) {
-			Empresa nuevaEmpresa = new Empresa(nombre.get());
-			// TODO almacenar el objeto en la BD
-			Alert alerta = new Alert(AlertType.CONFIRMATION);
-			alerta.setTitle("Confirmacion");
-			alerta.setHeaderText("Mensaje de registro");
-			alerta.setContentText("Se ha registrado una nueva Empresa desarrolladora");
-			alerta.showAndWait();
-		} else {
+		try {
+			if (!nombre.get().isEmpty()) {
+				Empresa nuevaEmpresa = new Empresa(nombre.get());
+				empresaDAO.guardar(nuevaEmpresa);
+
+				Alert alerta = new Alert(AlertType.CONFIRMATION);
+				alerta.setTitle("Confirmacion");
+				alerta.setHeaderText("Mensaje de registro");
+				alerta.setContentText("Se ha registrado una nueva Empresa desarrolladora");
+				alerta.showAndWait();
+			} else {
+				Alert alerta = new Alert(AlertType.ERROR);
+				alerta.setTitle("Error");
+				alerta.setHeaderText("Error de registro");
+				alerta.setContentText("Es necesario introducir un nombre");
+				alerta.showAndWait();
+			}
+		} catch (ValoratorException e) {
 			Alert alerta = new Alert(AlertType.ERROR);
 			alerta.setTitle("Error");
 			alerta.setHeaderText("Error de registro");
-			alerta.setContentText("Es necesario introducir un nombre");
+			alerta.setContentText("No se pudo guardar la nueva empresa");
 			alerta.showAndWait();
 		}
 	}
 
 	@FXML
 	public void volver() {
+		cerrarSesion();
 		dialogPrincipal.close();
 	}
 
 	@FXML
 	public void salir() {
+		cerrarSesion();
 		System.exit(0);
+	}
+
+	private void cerrarSesion() {
+		HibernateUtil.closeSessionFactory();
+	}
+
+	private void configurarSesion() {
+		HibernateUtil.buildSessionFactory();
+		HibernateUtil.openSessionAndBindToThread();
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 }
