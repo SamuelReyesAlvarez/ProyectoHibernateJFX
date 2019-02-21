@@ -137,6 +137,7 @@ public class ControladorVerJuegos implements Initializable {
 		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
 		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, Integer>("valoracion"));
 
+		tabla.refresh();
 		tabla.setItems(listaJuegos);
 	}
 }

@@ -3,8 +3,8 @@ package dam.samuel.vista;
 import java.util.Date;
 import java.util.List;
 
+import dam.samuel.dao.DesarrolloDAO;
 import dam.samuel.dao.EmpresaDAO;
-import dam.samuel.modelo.Desarrolla;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.Juego;
 import dam.samuel.modelo.Juego.EstiloJuego;
@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 public class ControladorVerDesarrolladores {
 
 	private EmpresaDAO empresaDAO = new EmpresaDAO();
+	private DesarrolloDAO desarrollaDAO = new DesarrolloDAO();
 	private ObservableList<Empresa> listaEmpresas;
 	private ObservableList<Juego> listaJuegos;
 	private Stage dialogVerDesarrolladores;
@@ -78,8 +79,10 @@ public class ControladorVerDesarrolladores {
 		if (empresa != null) {
 			emp = empresaDAO.consultarPorNombre(empresa);
 
-			for (Desarrolla juego : emp.getJuegos()) {
-				listaJuegos.add(juego.getJuego());
+			List<Juego> juegos = desarrollaDAO.consultarJuegosPorEmpresa(emp);
+
+			for (Juego juego : juegos) {
+				listaJuegos.add(juego);
 			}
 		}
 

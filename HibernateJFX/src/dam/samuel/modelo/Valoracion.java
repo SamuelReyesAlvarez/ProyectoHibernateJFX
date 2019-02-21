@@ -38,6 +38,7 @@ public class Valoracion implements Serializable {
 	private boolean positivo;
 
 	@Column(name = "comentario")
+	@NotNull
 	@Size(min = 5, max = 250)
 	private String comentario;
 

@@ -2,8 +2,6 @@ package dam.samuel;
 
 import java.io.IOException;
 
-import org.hibernate.Session;
-
 import dam.samuel.modelo.HibernateUtil;
 import dam.samuel.modelo.Juego;
 import dam.samuel.vista.ControladorLogin;
@@ -25,7 +23,7 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.8.8 (20/02/2019)
+ * @version 0.8.9 (21/02/2019)
  *
  */
 public class MainApp extends Application {
@@ -33,7 +31,7 @@ public class MainApp extends Application {
 	private Stage stage;
 	private Stage dialogPrincipal;
 	private Stage dialogVerJuegos;
-	private Session session;
+	private ControladorVerJuegos verJuegos;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -103,7 +101,7 @@ public class MainApp extends Application {
 			dialogVerJuegos.setScene(scene);
 			dialogVerJuegos.setResizable(false);
 
-			ControladorVerJuegos verJuegos = loader.<ControladorVerJuegos>getController();
+			verJuegos = loader.<ControladorVerJuegos>getController();
 			verJuegos.setMainApp(this);
 			verJuegos.setDialog(dialogVerJuegos);
 
@@ -214,6 +212,8 @@ public class MainApp extends Application {
 			valorarJuego.mostrarDatosJuego();
 
 			dialogValorarJuego.showAndWait();
+			verJuegos.cargarPorEstilo();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -224,13 +224,12 @@ public class MainApp extends Application {
 		launch(args);
 	}
 
-	private void cerrarSesion() {
+	public void cerrarSesion() {
 		HibernateUtil.closeSessionFactory();
 	}
 
-	private void configurarSesion() {
+	public void configurarSesion() {
 		HibernateUtil.buildSessionFactory();
 		HibernateUtil.openSessionAndBindToThread();
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 }

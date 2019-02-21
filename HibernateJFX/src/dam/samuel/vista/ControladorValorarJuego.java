@@ -73,15 +73,15 @@ public class ControladorValorarJuego {
 			Valoracion valoracion = new Valoracion(voto, textoComentario.getText());
 			valoracion.setJuego(juego);
 
-			Alert alerta = new Alert(AlertType.INFORMATION);
-			alerta.setTitle("Confirmacion");
-			alerta.setHeaderText("Mensaje de registro");
-			alerta.setContentText("Se ha registrado la valoracion");
-			alerta.showAndWait();
-
 			volver();
 			try {
 				valoracionDAO.guardar(valoracion);
+
+				Alert alerta = new Alert(AlertType.INFORMATION);
+				alerta.setTitle("Confirmacion");
+				alerta.setHeaderText("Mensaje de registro");
+				alerta.setContentText("Se ha registrado la valoracion");
+				alerta.showAndWait();
 			} catch (MySQLIntegrityConstraintViolationException e) {
 				mostrarError("No se pudo guardar la valoracion");
 			} catch (ValoratorException e) {
