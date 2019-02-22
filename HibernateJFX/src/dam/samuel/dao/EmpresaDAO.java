@@ -17,7 +17,7 @@ public class EmpresaDAO extends GenericDAO<Empresa> {
 
 	public Empresa consultarPorId(Empresa empresa) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		return (Empresa) session.get(Empresa.class, empresa.getIdEmpresa());
+		return (Empresa) session.load(Empresa.class, empresa.getIdEmpresa());
 	}
 
 	@SuppressWarnings("unchecked")

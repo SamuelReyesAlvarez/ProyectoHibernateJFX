@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.9.10 (21/02/2019)
+ * @version 0.10.11 (22/02/2019)
  *
  */
 public class MainApp extends Application {
@@ -237,6 +237,7 @@ public class MainApp extends Application {
 			detallesJuego.cargarDetallesJuego();
 
 			dialogDetallesJuego.showAndWait();
+			verJuegos.cargarPorEstilo();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

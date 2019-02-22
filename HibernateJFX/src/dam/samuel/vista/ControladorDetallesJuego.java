@@ -2,11 +2,16 @@ package dam.samuel.vista;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
+import dam.samuel.dao.DesarrolloDAO;
 import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.dao.JuegoDAO;
 import dam.samuel.dao.ValoracionDAO;
@@ -38,8 +43,10 @@ import javafx.stage.Stage;
 
 public class ControladorDetallesJuego implements Initializable {
 
+	private static final String PATRON_FECHA = "dd/MM/yyyy";
 	private ValoracionDAO valoracionDAO = new ValoracionDAO();
 	private EmpresaDAO empresaDAO = new EmpresaDAO();
+	private DesarrolloDAO desarrolloDAO = new DesarrolloDAO();
 	private JuegoDAO juegoDAO = new JuegoDAO();
 	private ObservableList<Valoracion> listaValoracion;
 	private ObservableList<String> listaEstilos;
@@ -85,6 +92,14 @@ public class ControladorDetallesJuego implements Initializable {
 		configurarTextPrecio();
 	}
 
+	public void setJuego(Juego juego) {
+		this.juego = juegoDAO.consultarPorId(juego);
+	}
+
+	public void setDialog(Stage stage) {
+		this.dialogDetallesJuego = stage;
+	}
+
 	@FXML
 	private void volver() {
 		dialogDetallesJuego.close();
@@ -103,12 +118,16 @@ public class ControladorDetallesJuego implements Initializable {
 			Optional<ButtonType> result = alerta.showAndWait();
 
 			if (result.get() == ButtonType.OK) {
+				juego.getListaValoraciones().remove(valoracion);
 				valoracionDAO.borrar(valoracion);
+				juegoDAO.actualizar(juego);
 
 				Alert hecho = new Alert(AlertType.CONFIRMATION);
 				hecho.setTitle("Confirmacion");
 				hecho.setHeaderText("Mensaje de borrado");
 				hecho.setContentText("Se ha borrado el objeto");
+
+				cargarValoracionesJuego();
 			}
 		} catch (ValoratorException e) {
 			Alert alerta = new Alert(AlertType.ERROR);
@@ -128,10 +147,29 @@ public class ControladorDetallesJuego implements Initializable {
 			} else {
 				juego.setEstilo(EstiloJuego.values()[(comboEstilo.getSelectionModel().getSelectedIndex() - 1)]);
 			}
-			juego.setPublicacion(textoPublicacion.getValue());
+			if (textoPublicacion.getValue() != null) {
+				juego.setPublicacion(textoPublicacion.getValue());
+			} else {
+				juego.setPublicacion(
+						LocalDate.parse(textoPublicacion.getPromptText(), DateTimeFormatter.ofPattern(PATRON_FECHA)));
+			}
 			juego.setPrecio(Double.parseDouble(textoPrecio.getText()));
 			juego.setDescripcion(textoDescripcion.getText());
-			juego.setListaDesarrolladores(crearListaDesarrolladores(juego, crearListaEmpresas()));
+
+			List<Desarrolla> listaABorrar = new ArrayList<>();
+			for (Desarrolla desarrolla : juego.getListaDesarrolladores()) {
+				listaABorrar.add(desarrolla);
+			}
+			juego.setListaDesarrolladores(null);
+			for (Desarrolla desarrolla : listaABorrar) {
+				desarrolloDAO.borrar(desarrolla);
+			}
+			juegoDAO.actualizar(juego);
+			List<Desarrolla> desarrolladores = crearListaDesarrolladores(juego, crearListaEmpresas());
+			for (Desarrolla desarrolla : desarrolladores) {
+				desarrolloDAO.guardar(desarrolla);
+			}
+			juego.setListaDesarrolladores(desarrolladores);
 			juegoDAO.actualizar(juego);
 
 			Alert alerta = new Alert(AlertType.INFORMATION);
@@ -140,12 +178,14 @@ public class ControladorDetallesJuego implements Initializable {
 			alerta.setContentText("Se han actualizado los datos del Juego");
 			alerta.showAndWait();
 			volver();
-		} catch (ValoratorException ve) {
+		} catch (ValoratorException e) {
 			mostrarError("No se pudo actualizar los datos del juego");
-		} catch (IllegalArgumentException iae) {
+		} catch (IllegalArgumentException e) {
 			mostrarError("Compruebe que todos los campos sean correctos");
-		} catch (NullPointerException npe) {
+		} catch (NullPointerException e) {
 			mostrarError("Compruebe que todos los campos estan rellenos");
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			mostrarError("Error al realizar la actualizacion");
 		}
 	}
 
@@ -170,20 +210,12 @@ public class ControladorDetallesJuego implements Initializable {
 	}
 
 	private List<Desarrolla> crearListaDesarrolladores(Juego juego, List<Empresa> empresas) throws ValoratorException {
-		List<Desarrolla> desarrollo = new ArrayList<>();
+		List<Desarrolla> desarrolladores = new ArrayList<>();
 		for (Empresa empresa : empresas) {
 			Desarrolla desarrolla = new Desarrolla(empresa, juego);
-			desarrollo.add(desarrolla);
+			desarrolladores.add(desarrolla);
 		}
-		return desarrollo;
-	}
-
-	public void setJuego(Juego juego) {
-		this.juego = juegoDAO.consultarPorId(juego);
-	}
-
-	public void setDialog(Stage stage) {
-		this.dialogDetallesJuego = stage;
+		return desarrolladores;
 	}
 
 	public void controlarOpciones(boolean esAdministrador) {
@@ -207,7 +239,7 @@ public class ControladorDetallesJuego implements Initializable {
 		} else {
 			comboEstilo.getSelectionModel().select(0);
 		}
-		textoPublicacion.setPromptText(new SimpleDateFormat("dd-MM-yyyy").format(juego.getPublicacion()));
+		textoPublicacion.setPromptText(new SimpleDateFormat(PATRON_FECHA).format(juego.getPublicacion()));
 		textoPrecio.setText(String.valueOf(juego.getPrecio()));
 
 		StringBuilder desarrolladores = new StringBuilder();
@@ -217,12 +249,11 @@ public class ControladorDetallesJuego implements Initializable {
 		textoDesarrolladores.setText(desarrolladores.toString());
 		textoDescripcion.setText(juego.getDescripcion());
 
-		listaValoracion = FXCollections.observableArrayList(juego.getListaValoraciones());
-		// List<Valoracion> lista = valoracionDAO.consultarPorJuego(juego);
+		cargarValoracionesJuego();
+	}
 
-//		for (Valoracion valoracion : lista) {
-//			listaValoracion.add(valoracion);
-//		}
+	private void cargarValoracionesJuego() {
+		listaValoracion = FXCollections.observableArrayList(juego.getListaValoraciones());
 
 		columnaVoto.setCellValueFactory(new PropertyValueFactory<Valoracion, String>("tipoVoto"));
 		columnaComentario.setCellValueFactory(new PropertyValueFactory<Valoracion, String>("comentario"));

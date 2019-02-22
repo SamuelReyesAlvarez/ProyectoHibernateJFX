@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -19,16 +20,25 @@
             <TextField id="nombre" fx:id="nombre" alignment="CENTER" layoutX="126.0" layoutY="125.0" promptText="Nombre de usuario" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="120.0">
          <VBox.margin>
             <Insets left="100.0" right="100.0" top="30.0" />
-         </VBox.margin></TextField>
+         </VBox.margin>
+         <effect>
+            <DropShadow />
+         </effect></TextField>
             <PasswordField id="clave" fx:id="clave" alignment="CENTER" layoutX="126.0" layoutY="160.0" promptText="Clave de acceso" AnchorPane.leftAnchor="126.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="150.0">
          <VBox.margin>
             <Insets left="100.0" right="100.0" top="5.0" />
-         </VBox.margin></PasswordField>
+         </VBox.margin>
+         <effect>
+            <DropShadow />
+         </effect></PasswordField>
             <Label id="error" fx:id="error" layoutX="108.0" layoutY="175.0" opacity="0.84" prefHeight="17.0" text="Datos de acceso incorrectos" textAlignment="CENTER" textFill="#790808" AnchorPane.topAnchor="175.0" />
-            <Button id="botonEntrar" layoutX="163.0" layoutY="221.0" mnemonicParsing="false" onAction="#entrar" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #273746;" text="Entrar" textFill="#f8f6f6" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="162.0">
+            <Button id="botonEntrar" defaultButton="true" layoutX="163.0" layoutY="221.0" mnemonicParsing="false" onAction="#entrar" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #273746;" text="Entrar" textFill="#f8f6f6" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="162.0">
          <VBox.margin>
             <Insets top="30.0" />
-         </VBox.margin></Button>
+         </VBox.margin>
+         <effect>
+            <DropShadow />
+         </effect></Button>
             <Label layoutX="83.0" layoutY="269.0" text="Dejar en blanco para acceder como invitado" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="83.0">
          <VBox.margin>
             <Insets top="50.0" />

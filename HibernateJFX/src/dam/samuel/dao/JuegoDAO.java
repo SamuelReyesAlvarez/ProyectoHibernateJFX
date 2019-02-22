@@ -18,7 +18,7 @@ public class JuegoDAO extends GenericDAO<Juego> {
 
 	public Juego consultarPorId(Juego juego) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		return (Juego) session.get(Juego.class, juego.getIdJuego());
+		return (Juego) session.load(Juego.class, juego.getIdJuego());
 	}
 
 	@SuppressWarnings("unchecked")

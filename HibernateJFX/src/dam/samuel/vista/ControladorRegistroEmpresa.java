@@ -33,7 +33,7 @@ public class ControladorRegistroEmpresa {
 	public void registrar() {
 		String nombre = textoNombre.getText();
 		try {
-			if (nombre.length() == 0) {
+			if (nombre.length() != 0) {
 				Empresa nuevaEmpresa = new Empresa(nombre);
 				empresaDAO.guardar(nuevaEmpresa);
 

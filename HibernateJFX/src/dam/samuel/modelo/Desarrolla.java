@@ -2,12 +2,14 @@ package dam.samuel.modelo;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,17 +24,18 @@ public class Desarrolla implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "idDesarrolla")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int idDesarrolla;
+
 	@ManyToOne
 	@JoinColumn(name = "idEmpresa")
 	@NotNull
-	@Valid
 	private Empresa empresa;
 
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "idJuego")
 	@NotNull
-	@Valid
 	private Juego juego;
 
 	public Desarrolla(Empresa empresa, Juego juego) {
@@ -42,6 +45,14 @@ public class Desarrolla implements Serializable {
 
 	public Desarrolla() {
 		super();
+	}
+
+	public int getIdDesarrolla() {
+		return idDesarrolla;
+	}
+
+	public void setIdDesarrolla(int idDesarrolla) {
+		this.idDesarrolla = idDesarrolla;
 	}
 
 	public Empresa getEmpresa() {
@@ -62,6 +73,6 @@ public class Desarrolla implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Desarrolla [idEmpresa=" + empresa + ", idJuego=" + juego + "]";
+		return "Desarrolla [idDesarrolla=" + idDesarrolla + ", empresa=" + empresa + ", juego=" + juego + "]";
 	}
 }

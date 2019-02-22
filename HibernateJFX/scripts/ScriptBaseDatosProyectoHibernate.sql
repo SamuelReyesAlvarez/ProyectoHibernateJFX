@@ -20,16 +20,17 @@ CREATE TABLE IF NOT EXISTS juego(
 );
 
 CREATE TABLE IF NOT EXISTS desarrolla(
-	idEmpresa INTEGER NOT NULL,
-	idJuego INTEGER NOT NULL,
-	CONSTRAINT pkIdEmpresaIdJuego PRIMARY KEY (idEmpresa, idJuego),
+	idDesarrolla INTEGER AUTO_INCREMENT NOT NULL,
+	idEmpresa INTEGER NULL,
+	idJuego INTEGER NULL,
+	CONSTRAINT pkidDesarrolla PRIMARY KEY (idDesarrolla),
 	CONSTRAINT fkIdEmpresaDesarrolla FOREIGN KEY (idEmpresa) REFERENCES empresa(idEmpresa),
 	CONSTRAINT fkIdjuegoDesarrolla FOREIGN KEY (idJuego) REFERENCES juego(idJuego)
 );
 
 CREATE TABLE IF NOT EXISTS valoracion(
 	idValoracion INTEGER AUTO_INCREMENT NOT NULL,
-	idJuego INTEGER NOT NULL,
+	idJuego INTEGER NULL,
 	voto TINYINT NOT NULL,
 	comentario VARCHAR (250) NOT NULL,
 	CONSTRAINT pkIdValoracion PRIMARY KEY (idValoracion),
@@ -64,3 +65,10 @@ INSERT INTO desarrolla(idEmpresa, idJuego) VALUES(3, 9);
 INSERT INTO desarrolla(idEmpresa, idJuego) VALUES(4, 10);
 INSERT INTO desarrolla(idEmpresa, idJuego) VALUES(1, 10);
 INSERT INTO desarrolla(idEmpresa, idJuego) VALUES(4, 8);
+
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, true, 'Es el mejor juego que he visto nunca');
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, false, 'Tiene muchos bugs');
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, true, 'Tiene algunos bugs pero es jugable');
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, true, 'Se nota la entrega que le ponen en el desarrollo');
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, false, 'Aun esta muy verde');
+INSERT INTO valoracion(idJuego, voto, comentario) VALUES(10, true, 'Es gratis!! Que mas quieres?');

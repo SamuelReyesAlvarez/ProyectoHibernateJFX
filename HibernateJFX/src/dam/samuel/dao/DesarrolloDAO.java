@@ -5,11 +5,12 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import dam.samuel.modelo.Desarrolla;
 import dam.samuel.modelo.Empresa;
 import dam.samuel.modelo.HibernateUtil;
 import dam.samuel.modelo.Juego;
 
-public class DesarrolloDAO {
+public class DesarrolloDAO extends GenericDAO<Desarrolla> {
 
 	@SuppressWarnings("unchecked")
 	public List<Juego> consultarJuegosPorEmpresa(Empresa empresa) {

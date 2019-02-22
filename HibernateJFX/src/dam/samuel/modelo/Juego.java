@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,15 +20,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -76,18 +72,15 @@ public class Juego implements Serializable {
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
-	@Valid
 	private List<Desarrolla> listaDesarrolladores;
 
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-	@Fetch(value = FetchMode.SUBSELECT)
+	@OneToMany
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
-	@Valid
 	private List<Valoracion> listaValoraciones;
 
 	@Transient
-	private int valoracion;
+	private String valoracion;
 
 	public Juego(String nombre, EstiloJuego estilo, LocalDate publicacion, String descripcion, double precio) {
 		this.nombre = nombre;
@@ -167,7 +160,7 @@ public class Juego implements Serializable {
 		this.listaValoraciones = listaValoraciones;
 	}
 
-	public int getValoracion() {
+	public String getValoracion() {
 		return valoracion;
 	}
 
@@ -182,9 +175,9 @@ public class Juego implements Serializable {
 		}
 
 		if (totalVotos != 0) {
-			valoracion = votosPositivos * 100 / totalVotos;
+			valoracion = (votosPositivos * 100 / totalVotos) + "% positivos";
 		} else {
-			valoracion = 0;
+			valoracion = "sin votos";
 		}
 	}
 

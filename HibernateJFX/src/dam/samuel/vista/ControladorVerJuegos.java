@@ -2,7 +2,6 @@ package dam.samuel.vista;
 
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import dam.samuel.MainApp;
@@ -47,7 +46,7 @@ public class ControladorVerJuegos implements Initializable {
 	@FXML
 	private TableColumn<Juego, Double> columnaPrecio;
 	@FXML
-	private TableColumn<Juego, Integer> columnaValoracion;
+	private TableColumn<Juego, String> columnaValoracion;
 	@FXML
 	private ComboBox<String> comboBox;
 	@FXML
@@ -116,37 +115,33 @@ public class ControladorVerJuegos implements Initializable {
 	}
 
 	public void cargarPorEstilo() {
-		listaJuegos = FXCollections.observableArrayList();
-		List<Juego> list = null;
-
 		switch (comboBox.getSelectionModel().getSelectedItem()) {
 		case "TODOS":
-			list = juegoDAO.consultarTodas();
+			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarTodas());
 			break;
 		case "ROL":
-			list = juegoDAO.consultarPorEstilo(EstiloJuego.rol);
+			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarPorEstilo(EstiloJuego.rol));
 			break;
 		case "ACCION":
-			list = juegoDAO.consultarPorEstilo(EstiloJuego.accion);
+			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarPorEstilo(EstiloJuego.accion));
 			break;
 		case "AVENTURA":
-			list = juegoDAO.consultarPorEstilo(EstiloJuego.aventura);
+			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarPorEstilo(EstiloJuego.aventura));
 			break;
 		case "ESTRATEGIA":
-			list = juegoDAO.consultarPorEstilo(EstiloJuego.estrategia);
+			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarPorEstilo(EstiloJuego.estrategia));
 			break;
 		}
 
-		for (Juego juego : list) {
+		for (Juego juego : listaJuegos) {
 			juego.setValoracion();
-			listaJuegos.add(juego);
 		}
 
 		columnaNombre.setCellValueFactory(new PropertyValueFactory<Juego, String>("nombre"));
 		columnaEstilo.setCellValueFactory(new PropertyValueFactory<Juego, EstiloJuego>("estilo"));
 		columnaFecha.setCellValueFactory(new PropertyValueFactory<Juego, Date>("publicacion"));
 		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
-		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, Integer>("valoracion"));
+		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, String>("valoracion"));
 
 		tabla.refresh();
 		tabla.setItems(listaJuegos);
