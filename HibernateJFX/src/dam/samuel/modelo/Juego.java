@@ -1,6 +1,8 @@
 package dam.samuel.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,10 +73,10 @@ public class Juego implements Serializable {
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
+	@Valid
 	private List<Desarrolla> listaDesarrolladores;
 
 	@OneToMany
-	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
 	@Valid
 	private List<Valoracion> listaValoraciones;
@@ -82,10 +84,10 @@ public class Juego implements Serializable {
 	@Transient
 	private int valoracion;
 
-	public Juego(String nombre, EstiloJuego estilo, Date publicacion, String descripcion, double precio) {
+	public Juego(String nombre, EstiloJuego estilo, LocalDate publicacion, String descripcion, double precio) {
 		this.nombre = nombre;
 		this.estilo = estilo;
-		this.publicacion = publicacion;
+		this.publicacion = Date.from(publicacion.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.listaDesarrolladores = new ArrayList<>();
@@ -124,8 +126,8 @@ public class Juego implements Serializable {
 		return publicacion;
 	}
 
-	public void setPublicacion(Date publicacion) {
-		this.publicacion = publicacion;
+	public void setPublicacion(LocalDate publicacion) {
+		this.publicacion = Date.from(publicacion.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
 	public String getDescripcion() {

@@ -19,9 +19,8 @@ public class ValoracionDAO extends GenericDAO<Valoracion> {
 	@SuppressWarnings("unchecked")
 	public List<Valoracion> consultarPorJuego(Juego juego) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		Query consulta = session.createQuery(
-				"SELECT v FROM dam.samuel.modelo.Valoracion v INNER JOIN dam.samuel.modelo.Juego j WHERE j.id = "
-						+ juego.getIdJuego());
+		Query consulta = session
+				.createQuery("SELECT v FROM Valoracion v INNER JOIN v.juego j WHERE j.idJuego = " + juego.getIdJuego());
 		return consulta.list();
 	}
 }

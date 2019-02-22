@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import dam.samuel.modelo.HibernateUtil;
 import dam.samuel.modelo.Juego;
+import dam.samuel.vista.ControladorDetallesJuego;
 import dam.samuel.vista.ControladorLogin;
 import dam.samuel.vista.ControladorPrincipal;
 import dam.samuel.vista.ControladorRegistroEmpresa;
@@ -23,7 +24,7 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  * 
- * @version 0.8.9 (21/02/2019)
+ * @version 0.9.10 (21/02/2019)
  *
  */
 public class MainApp extends Application {
@@ -32,6 +33,8 @@ public class MainApp extends Application {
 	private Stage dialogPrincipal;
 	private Stage dialogVerJuegos;
 	private ControladorVerJuegos verJuegos;
+
+	private boolean esAdministrador;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -58,6 +61,7 @@ public class MainApp extends Application {
 	}
 
 	public void mostrarPrincipal(boolean esAdmin) {
+		esAdministrador = esAdmin;
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/Principal.fxml"));
@@ -75,10 +79,12 @@ public class MainApp extends Application {
 			ControladorPrincipal principal = loader.<ControladorPrincipal>getController();
 			principal.setMainApp(this);
 			principal.setDialog(dialogPrincipal);
-			principal.controlarOpciones(esAdmin);
+			principal.controlarOpciones(esAdministrador);
 
 			stage.hide();
+			configurarSesion();
 			dialogPrincipal.showAndWait();
+			cerrarSesion();
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -86,7 +92,6 @@ public class MainApp extends Application {
 	}
 
 	public void mostrarVerJuegos() {
-		configurarSesion();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/VerJuegos.fxml"));
@@ -109,11 +114,9 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cerrarSesion();
 	}
 
 	public void mostrarVerDesarrolladores() {
-		configurarSesion();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/VerDesarrolladores.fxml"));
@@ -135,11 +138,9 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cerrarSesion();
 	}
 
 	public void mostrarNuevoJuego() {
-		configurarSesion();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/RegistroJuego.fxml"));
@@ -161,11 +162,9 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cerrarSesion();
 	}
 
 	public void mostrarNuevoDesarrollador() {
-		configurarSesion();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/RegistroEmpresa.fxml"));
@@ -187,11 +186,9 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cerrarSesion();
 	}
 
 	public void mostrarValorarJuego(Juego juego) {
-		configurarSesion();
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("vista/ValorarJuego.fxml"));
@@ -213,11 +210,36 @@ public class MainApp extends Application {
 
 			dialogValorarJuego.showAndWait();
 			verJuegos.cargarPorEstilo();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		cerrarSesion();
+	}
+
+	public void mostrarDetallesJuego(Juego juego) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("vista/DetallesJuego.fxml"));
+
+			Stage dialogDetallesJuego = new Stage();
+			dialogDetallesJuego.setTitle("Valorator");
+			dialogDetallesJuego.initOwner(dialogVerJuegos);
+			dialogDetallesJuego.initModality(Modality.WINDOW_MODAL);
+
+			BorderPane border = (BorderPane) loader.load();
+			Scene scene = new Scene(border);
+			dialogDetallesJuego.setScene(scene);
+			dialogDetallesJuego.setResizable(false);
+
+			ControladorDetallesJuego detallesJuego = loader.<ControladorDetallesJuego>getController();
+			detallesJuego.setJuego(juego);
+			detallesJuego.setDialog(dialogDetallesJuego);
+			detallesJuego.controlarOpciones(esAdministrador);
+			detallesJuego.cargarDetallesJuego();
+
+			dialogDetallesJuego.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

@@ -11,6 +11,7 @@ import dam.samuel.modelo.Juego.EstiloJuego;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -58,8 +59,10 @@ public class ControladorVerDesarrolladores {
 
 		columnaEmpresa.setCellValueFactory(new PropertyValueFactory<Empresa, String>("nombre"));
 		tablaEmpresa.setItems(listaEmpresas);
+		tablaEmpresa.getSelectionModel().select(listaEmpresas.get(0));
 
-		mostrarJuegosDeEmpresa(null);
+		mostrarJuegosDeEmpresa(listaEmpresas.get(0));
+		tablaEmpresa.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		tablaEmpresa.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
 				newValue) -> mostrarJuegosDeEmpresa(tablaEmpresa.getSelectionModel().getSelectedItem()));
 	}
@@ -92,5 +95,6 @@ public class ControladorVerDesarrolladores {
 		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
 
 		tablaJuego.setItems(listaJuegos);
+		tablaJuego.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 	}
 }

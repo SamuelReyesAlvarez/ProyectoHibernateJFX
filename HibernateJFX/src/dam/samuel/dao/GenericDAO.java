@@ -21,6 +21,7 @@ public class GenericDAO<T> {
 		try {
 			session.beginTransaction();
 			session.saveOrUpdate(entidad);
+			session.persist(entidad);
 			session.getTransaction().commit();
 		} catch (ConstraintViolationException e) {
 			session.getTransaction().rollback();
@@ -28,7 +29,7 @@ public class GenericDAO<T> {
 		}
 	}
 
-	public void borrar(T entidad) throws Exception {
+	public void borrar(T entidad) throws ValoratorException {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {

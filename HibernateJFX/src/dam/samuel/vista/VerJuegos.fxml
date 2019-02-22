@@ -36,11 +36,11 @@
 			<children>
 				<TableView fx:id="tabla" layoutX="55.0" layoutY="25.0" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #273746;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 					<columns>
-						<TableColumn fx:id="columnaNombre" editable="false" text="Nombre" />
-						<TableColumn fx:id="columnaEstilo" editable="false" text="Estilo" />
-						<TableColumn fx:id="columnaFecha" editable="false" text="Publicacion" />
-						<TableColumn fx:id="columnaPrecio" editable="false" text="Precio" />
-						<TableColumn fx:id="columnaValoracion" editable="false" text="Valoracion" />
+						<TableColumn fx:id="columnaNombre" editable="false" prefWidth="160.0" resizable="false" text="Nombre" />
+						<TableColumn fx:id="columnaEstilo" editable="false" prefWidth="100.0" resizable="false" text="Estilo" />
+						<TableColumn fx:id="columnaFecha" editable="false" prefWidth="120.0" resizable="false" text="Publicacion" />
+						<TableColumn fx:id="columnaPrecio" editable="false" prefWidth="100.0" resizable="false" text="Precio" />
+						<TableColumn fx:id="columnaValoracion" editable="false" prefWidth="120.0" resizable="false" text="Valoracion" />
 					</columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -58,7 +58,12 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <Button fx:id="botonValorar" layoutX="532.0" layoutY="13.0" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
+            <HBox layoutX="493.0" layoutY="13.0" spacing="5.0">
+               <children>
+                  <Button fx:id="botonVer" layoutX="480.0" layoutY="13.0" mnemonicParsing="false" onAction="#ver" text="Ver" />
+                  <Button fx:id="botonValorar" layoutX="532.0" layoutY="13.0" mnemonicParsing="false" onAction="#valorar" text="Valorar" />
+               </children>
+            </HBox>
          </children></Pane>
 	</bottom>
 </BorderPane>

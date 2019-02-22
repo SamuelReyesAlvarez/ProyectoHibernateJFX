@@ -1,9 +1,8 @@
 package dam.samuel.vista;
 
 import java.net.URL;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -91,8 +90,7 @@ public class ControladorRegistroJuego implements Initializable {
 			} else {
 				estilo = EstiloJuego.values()[comboEstilo.getSelectionModel().getSelectedIndex() - 1];
 			}
-			Date publicacion = Date
-					.from(datePublicacion.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+			LocalDate publicacion = datePublicacion.getValue();
 			String descripcion = textoDescripcion.getText();
 			Double precio = Double.parseDouble(textoPrecio.getText());
 

@@ -52,6 +52,8 @@ public class ControladorVerJuegos implements Initializable {
 	private ComboBox<String> comboBox;
 	@FXML
 	private Button botonValorar;
+	@FXML
+	private Button botonVer;
 
 	public ControladorVerJuegos() {
 	}
@@ -70,6 +72,7 @@ public class ControladorVerJuegos implements Initializable {
 		cargarPorEstilo();
 
 		botonValorar.setDisable(true);
+		botonVer.setDisable(true);
 
 		tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Juego>() {
@@ -78,8 +81,10 @@ public class ControladorVerJuegos implements Initializable {
 			public void changed(ObservableValue<? extends Juego> observable, Juego oldValue, Juego newValue) {
 				if (newValue == null) {
 					botonValorar.setDisable(true);
+					botonVer.setDisable(true);
 				} else {
 					botonValorar.setDisable(false);
+					botonVer.setDisable(false);
 				}
 			}
 		});
@@ -96,6 +101,12 @@ public class ControladorVerJuegos implements Initializable {
 	@FXML
 	public void volver() {
 		dialogVerJuegos.close();
+	}
+
+	@FXML
+	public void ver() {
+		Juego juego = tabla.getSelectionModel().getSelectedItem();
+		stage.mostrarDetallesJuego(juego);
 	}
 
 	@FXML

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<!-- @author Samuel Reyes Alvarez -->
+
+<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dam.samuel.vista.ControladorDetallesJuego">
+   <top>
+      <FlowPane alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Detalles del Juego" textFill="#dddddd">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </FlowPane>
+   </top>
+   <bottom>
+      <Pane prefHeight="50.0" prefWidth="800.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#volver" text="&lt;" />
+            <HBox layoutX="597.0" layoutY="13.0" spacing="5.0">
+               <children>
+                  <Button fx:id="botonBorrar" layoutX="602.0" layoutY="13.0" mnemonicParsing="false" onAction="#borrar" text="Borrar Voto" />
+                  <Button fx:id="botonGuardar" layoutX="680.0" layoutY="13.0" mnemonicParsing="false" onAction="#guardar" text="Guardar cambios" />
+               </children>
+            </HBox>
+            <Label layoutX="38.0" layoutY="17.0" text="Volver atrás" textFill="#dddddd">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </Pane>
+   </bottom>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+         <center>
+            <TableView fx:id="tablaValoracion" prefHeight="325.0" prefWidth="800.0" style="-fx-background-color: #273746;" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="columnaVoto" prefWidth="100.0" resizable="false" text="Voto" />
+                <TableColumn fx:id="columnaComentario" prefWidth="700.0" resizable="false" text="Comentario" />
+              </columns>
+            </TableView>
+         </center>
+         <top>
+            <AnchorPane prefHeight="75.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="textoNombre" layoutX="10.0" layoutY="5.0" promptText="Nombre" />
+                  <TextField fx:id="textoPrecio" layoutX="170.0" layoutY="5.0" promptText="Precio" />
+                  <TextArea fx:id="textoDesarrolladores" layoutX="330.0" layoutY="2.0" prefHeight="70.0" prefWidth="149.0" promptText="Desarrolladores" wrapText="true" />
+                  <TextArea fx:id="textoDescripcion" layoutX="490.0" layoutY="2.0" prefHeight="70.0" prefWidth="300.0" promptText="Descripcion" wrapText="true" />
+                  <ComboBox fx:id="comboEstilo" layoutX="10.0" layoutY="40.0" prefWidth="149.0" promptText="Estilo" />
+                  <DatePicker fx:id="textoPublicacion" layoutX="170.0" layoutY="40.0" prefWidth="149.0" promptText="Publicacion" />
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </center>
+</BorderPane>
