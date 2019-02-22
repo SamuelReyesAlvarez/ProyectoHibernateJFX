@@ -51,7 +51,7 @@ public class MainApp extends Application {
 			stage.setScene(scene);
 			stage.setResizable(false);
 
-			ControladorLogin login = loader.<ControladorLogin>getController();
+			ControladorLogin login = loader.getController();
 			login.setStage(this);
 
 			stage.show();
@@ -76,7 +76,7 @@ public class MainApp extends Application {
 			dialogPrincipal.setScene(scene);
 			dialogPrincipal.setResizable(false);
 
-			ControladorPrincipal principal = loader.<ControladorPrincipal>getController();
+			ControladorPrincipal principal = loader.getController();
 			principal.setMainApp(this);
 			principal.setDialog(dialogPrincipal);
 			principal.controlarOpciones(esAdministrador);
@@ -106,7 +106,7 @@ public class MainApp extends Application {
 			dialogVerJuegos.setScene(scene);
 			dialogVerJuegos.setResizable(false);
 
-			verJuegos = loader.<ControladorVerJuegos>getController();
+			verJuegos = loader.getController();
 			verJuegos.setMainApp(this);
 			verJuegos.setDialog(dialogVerJuegos);
 
@@ -131,7 +131,7 @@ public class MainApp extends Application {
 			dialogVerDesarrolladores.setScene(scene);
 			dialogVerDesarrolladores.setResizable(false);
 
-			ControladorVerDesarrolladores verDesarrolladores = loader.<ControladorVerDesarrolladores>getController();
+			ControladorVerDesarrolladores verDesarrolladores = loader.getController();
 			verDesarrolladores.setDialog(dialogVerDesarrolladores);
 
 			dialogVerDesarrolladores.showAndWait();
@@ -155,7 +155,7 @@ public class MainApp extends Application {
 			dialogRegistroJuego.setScene(scene);
 			dialogRegistroJuego.setResizable(false);
 
-			ControladorRegistroJuego registroJuego = loader.<ControladorRegistroJuego>getController();
+			ControladorRegistroJuego registroJuego = loader.getController();
 			registroJuego.setDialog(dialogRegistroJuego);
 
 			dialogRegistroJuego.showAndWait();
@@ -179,7 +179,7 @@ public class MainApp extends Application {
 			dialogRegistroEmpresa.setScene(scene);
 			dialogRegistroEmpresa.setResizable(false);
 
-			ControladorRegistroEmpresa registroEmpresa = loader.<ControladorRegistroEmpresa>getController();
+			ControladorRegistroEmpresa registroEmpresa = loader.getController();
 			registroEmpresa.setDialog(dialogRegistroEmpresa);
 
 			dialogRegistroEmpresa.showAndWait();
@@ -203,7 +203,7 @@ public class MainApp extends Application {
 			dialogValorarJuego.setScene(scene);
 			dialogValorarJuego.setResizable(false);
 
-			ControladorValorarJuego valorarJuego = loader.<ControladorValorarJuego>getController();
+			ControladorValorarJuego valorarJuego = loader.getController();
 			valorarJuego.setJuego(juego);
 			valorarJuego.setDialog(dialogValorarJuego);
 			valorarJuego.mostrarDatosJuego();
@@ -230,7 +230,7 @@ public class MainApp extends Application {
 			dialogDetallesJuego.setScene(scene);
 			dialogDetallesJuego.setResizable(false);
 
-			ControladorDetallesJuego detallesJuego = loader.<ControladorDetallesJuego>getController();
+			ControladorDetallesJuego detallesJuego = loader.getController();
 			detallesJuego.setJuego(juego);
 			detallesJuego.setDialog(dialogDetallesJuego);
 			detallesJuego.controlarOpciones(esAdministrador);

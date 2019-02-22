@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +28,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -76,7 +79,9 @@ public class Juego implements Serializable {
 	@Valid
 	private List<Desarrolla> listaDesarrolladores;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idJuego")
 	@Valid
 	private List<Valoracion> listaValoraciones;

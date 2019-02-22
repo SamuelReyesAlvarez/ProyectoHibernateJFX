@@ -85,6 +85,7 @@ public class ControladorValorarJuego {
 			} catch (MySQLIntegrityConstraintViolationException e) {
 				mostrarError("No se pudo guardar la valoracion");
 			} catch (ValoratorException e) {
+				System.out.println(e.getMessage());
 				mostrarError(e.getMessage());
 			}
 		}

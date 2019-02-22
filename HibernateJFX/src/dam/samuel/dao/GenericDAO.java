@@ -15,17 +15,30 @@ import dam.samuel.modelo.ValoratorException;
  *
  */
 public class GenericDAO<T> {
+
 	public void guardar(T entidad) throws ValoratorException, MySQLIntegrityConstraintViolationException {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
 			session.beginTransaction();
-			session.saveOrUpdate(entidad);
-			session.persist(entidad);
+			session.save(entidad);
 			session.getTransaction().commit();
 		} catch (ConstraintViolationException e) {
 			session.getTransaction().rollback();
 			throw new ValoratorException("Error al realizar el guardado");
+		}
+	}
+
+	public void actualizar(T entidad) throws ValoratorException {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+		try {
+			session.beginTransaction();
+			session.update(entidad);
+			session.getTransaction().commit();
+		} catch (ConstraintViolationException e) {
+			session.getTransaction().rollback();
+			throw new ValoratorException("Error al realizar la actualización");
 		}
 	}
 

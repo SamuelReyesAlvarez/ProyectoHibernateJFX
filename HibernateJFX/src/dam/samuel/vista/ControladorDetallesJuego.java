@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
 import dam.samuel.dao.EmpresaDAO;
 import dam.samuel.dao.JuegoDAO;
 import dam.samuel.dao.ValoracionDAO;
@@ -100,7 +98,7 @@ public class ControladorDetallesJuego implements Initializable {
 			Alert alerta = new Alert(AlertType.CONFIRMATION);
 			alerta.setTitle("Peticion");
 			alerta.setHeaderText("Se solicita confirmar la accion");
-			alerta.setContentText("¿Esta seguro de borrar el objeto seleccionado?");
+			alerta.setContentText("ï¿½Esta seguro de borrar el objeto seleccionado?");
 
 			Optional<ButtonType> result = alerta.showAndWait();
 
@@ -134,7 +132,7 @@ public class ControladorDetallesJuego implements Initializable {
 			juego.setPrecio(Double.parseDouble(textoPrecio.getText()));
 			juego.setDescripcion(textoDescripcion.getText());
 			juego.setListaDesarrolladores(crearListaDesarrolladores(juego, crearListaEmpresas()));
-			juegoDAO.guardar(juego);
+			juegoDAO.actualizar(juego);
 
 			Alert alerta = new Alert(AlertType.INFORMATION);
 			alerta.setTitle("Confirmacion");
@@ -148,8 +146,6 @@ public class ControladorDetallesJuego implements Initializable {
 			mostrarError("Compruebe que todos los campos sean correctos");
 		} catch (NullPointerException npe) {
 			mostrarError("Compruebe que todos los campos estan rellenos");
-		} catch (MySQLIntegrityConstraintViolationException e) {
-			mostrarError("No deberia lanzar esta excepcion");
 		}
 	}
 
@@ -221,12 +217,12 @@ public class ControladorDetallesJuego implements Initializable {
 		textoDesarrolladores.setText(desarrolladores.toString());
 		textoDescripcion.setText(juego.getDescripcion());
 
-		listaValoracion = FXCollections.observableArrayList();
-		List<Valoracion> lista = valoracionDAO.consultarPorJuego(juego);
+		listaValoracion = FXCollections.observableArrayList(juego.getListaValoraciones());
+		// List<Valoracion> lista = valoracionDAO.consultarPorJuego(juego);
 
-		for (Valoracion valoracion : lista) {
-			listaValoracion.add(valoracion);
-		}
+//		for (Valoracion valoracion : lista) {
+//			listaValoracion.add(valoracion);
+//		}
 
 		columnaVoto.setCellValueFactory(new PropertyValueFactory<Valoracion, String>("tipoVoto"));
 		columnaComentario.setCellValueFactory(new PropertyValueFactory<Valoracion, String>("comentario"));
