@@ -4,6 +4,8 @@ package dam.samuel.modelo;
  * 
  * @author Samuel Reyes Alvarez
  *
+ *         Clase que hereda de Exception que permite la gestión de las
+ *         excepciones producidas
  */
 public class ValoratorException extends Exception {
 

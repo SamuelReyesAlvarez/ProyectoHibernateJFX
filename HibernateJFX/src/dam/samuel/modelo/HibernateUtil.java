@@ -11,6 +11,8 @@ import org.hibernate.service.ServiceRegistryBuilder;
  * 
  * @author Samuel Reyes Alvarez
  *
+ *         Clase que permite gestionar la conexión y desconexión de la
+ *         herramienta Hibernate con MySQL
  */
 public class HibernateUtil {
 

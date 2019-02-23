@@ -33,6 +33,8 @@ import javafx.stage.Stage;
  * 
  * @author Samuel Reyes Alvarez
  *
+ *         Esta clase controla la ventana de registros de juegos y solo estarña
+ *         disponible para el Administrador
  */
 public class ControladorRegistroJuego implements Initializable {
 
@@ -54,55 +56,89 @@ public class ControladorRegistroJuego implements Initializable {
 	@FXML
 	private TextField textoDesarrolladores;
 
+	/**
+	 * Constructor estándar
+	 */
 	public ControladorRegistroJuego() {
 	}
 
+	/**
+	 * Carga datos iniciales para rellenar componentes
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Carga los estilos de juego disponibles más un campo vacío
 		listaEstilos = FXCollections.observableArrayList();
 		listaEstilos.add("<sin definir>");
 		for (EstiloJuego estilo : EstiloJuego.values()) {
 			listaEstilos.add(estilo.toString().toUpperCase());
 		}
 
+		// Rellena el combobox con la lista de estilos y selecciona la primera opción
+		// por defecto
 		comboEstilo.setItems(listaEstilos);
 		comboEstilo.getSelectionModel().selectFirst();
 
 		configurarTextPrecio();
 	}
 
+	/**
+	 * Recibe el marco de la ventana controlada por la clase
+	 * 
+	 * @param stage es el marco de la ventana RegistroJuego
+	 */
 	public void setDialog(Stage stage) {
 		this.dialogRegistroJuego = stage;
 	}
 
+	/**
+	 * Cierra la ventana controlada por la clase y vuelve a la ventana Principal
+	 */
 	@FXML
 	private void volver() {
 		dialogRegistroJuego.close();
 	}
 
+	/**
+	 * Gestiona el registro de un nuevo juego a través de la cumplimentación de un
+	 * formulario por parte del Administrador
+	 */
 	@FXML
 	private void registrar() {
 		try {
+			// Recoge el nombre introducido
 			String nombre = textoNombre.getText();
+			// Comprueba el estilo de juego seleccionado
+			// Si selecciona la primera opción, el juego no tendrá estilo definido
 			EstiloJuego estilo;
 			if (comboEstilo.getValue().contains("<")) {
 				estilo = null;
 			} else {
 				estilo = EstiloJuego.values()[comboEstilo.getSelectionModel().getSelectedIndex() - 1];
 			}
+			// Obtiene la fecha de publicación
 			LocalDate publicacion = datePublicacion.getValue();
+			// Recoge la descripción del juego
 			String descripcion = textoDescripcion.getText();
+			// Transforma la cantidad introducida a formato precio
 			Double precio = Double.parseDouble(textoPrecio.getText());
 
+			// Crea un nuevo objeto Juego
 			Juego juego = new Juego(nombre, estilo, publicacion, descripcion, precio);
+			// Establece la lista de desarrolladores del juego
 			juego.setListaDesarrolladores(crearListaDesarrolladores(juego, crearListaEmpresas()));
+			// Guarda el nuevo juego en la base de datos a través de Hibernate y éste se
+			// encarga de crear la relación de Desarrolla con las empresas indicadas
 			juegoDAO.guardar(juego);
 
+			// Muestra un mensaje de acción completada
 			Alert alerta = new Alert(AlertType.INFORMATION);
 			alerta.setTitle("Confirmacion");
 			alerta.setHeaderText("Mensaje de registro");
 			alerta.setContentText("Se ha registrado un nuevo Juego");
 			alerta.showAndWait();
+
+			// Cierra la ventana de registro y vuelve a Principal
 			volver();
 		} catch (ValoratorException ve) {
 			mostrarError("No se pudo guardar el nuevo juego");
@@ -115,11 +151,18 @@ public class ControladorRegistroJuego implements Initializable {
 		}
 	}
 
+	/**
+	 * Genera un lista de empresas a partir de los nombre introducidos por el
+	 * Administrador
+	 * 
+	 * @return empresas que desarrollaron el juego
+	 */
 	private List<Empresa> crearListaEmpresas() {
 		List<Empresa> empresas = new ArrayList<>();
 		String[] nombres = textoDesarrolladores.getText().split(",");
 		for (String nombre : nombres) {
-			Empresa empresa = empresaDAO.consultarPorNombre(new Empresa(nombre.trim()));
+			// Comprueba que las empresas estan registradas en la base de datos
+			Empresa empresa = empresaDAO.consultarPorNombre(nombre.trim());
 			if (empresa != null) {
 				empresas.add(empresa);
 			}
@@ -127,7 +170,15 @@ public class ControladorRegistroJuego implements Initializable {
 		return empresas;
 	}
 
-	private List<Desarrolla> crearListaDesarrolladores(Juego juego, List<Empresa> empresas) throws ValoratorException {
+	/**
+	 * Crea una lista de relación de Desarrolla entre el juego y las empresas que lo
+	 * desarrollaron
+	 * 
+	 * @param juego    desarrollado
+	 * @param empresas que lo desarrollaron
+	 * @return desarrollo es la relación entre las empresas y el juego
+	 */
+	private List<Desarrolla> crearListaDesarrolladores(Juego juego, List<Empresa> empresas) {
 		List<Desarrolla> desarrollo = new ArrayList<>();
 		for (Empresa empresa : empresas) {
 			Desarrolla desarrolla = new Desarrolla(empresa, juego);
@@ -136,6 +187,12 @@ public class ControladorRegistroJuego implements Initializable {
 		return desarrollo;
 	}
 
+	/**
+	 * Genera un mensaje de error con el mensaje especificado para que pueda ser
+	 * lanzado desde cualquier parte del código
+	 * 
+	 * @param mensaje a mostrar en la alerta
+	 */
 	private void mostrarError(String mensaje) {
 		Alert alerta = new Alert(AlertType.ERROR);
 		alerta.setTitle("Error");
@@ -144,6 +201,10 @@ public class ControladorRegistroJuego implements Initializable {
 		alerta.showAndWait();
 	}
 
+	/**
+	 * Establece el formato de escritura permitida en el componente donde se
+	 * introducirá el precio de venta del juego
+	 */
 	private void configurarTextPrecio() {
 		textoPrecio.textProperty().addListener(new ChangeListener<String>() {
 

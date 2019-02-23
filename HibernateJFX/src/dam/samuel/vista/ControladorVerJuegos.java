@@ -32,7 +32,7 @@ public class ControladorVerJuegos implements Initializable {
 	private JuegoDAO juegoDAO = new JuegoDAO();
 	private ObservableList<Juego> listaJuegos;
 	private ObservableList<String> listaEstilos;
-	private MainApp stage;
+	private MainApp mainApp;
 	private Stage dialogVerJuegos;
 
 	@FXML
@@ -54,26 +54,41 @@ public class ControladorVerJuegos implements Initializable {
 	@FXML
 	private Button botonVer;
 
+	/**
+	 * Constructor estándar
+	 */
 	public ControladorVerJuegos() {
 	}
 
+	/**
+	 * Carga los datos necesarios para iniciar los componentes antes de mostrar la
+	 * ventana
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Carga el combobox con los estilos de juego disponibles más un campo extra
+		// para visualizarlos todos
 		listaEstilos = FXCollections.observableArrayList();
 		listaEstilos.add("todos".toUpperCase());
 		for (EstiloJuego estilo : EstiloJuego.values()) {
 			listaEstilos.add(estilo.toString().toUpperCase());
 		}
-
 		comboBox.setItems(listaEstilos);
+		// Marca el primer item del combobox como seleción por defecto para cargar los
+		// primeros datos
 		comboBox.getSelectionModel().selectFirst();
-
 		cargarPorEstilo();
 
+		// Desactiva los botones de acción hasta que el usuario seleccione un item de la
+		// tabla
 		botonValorar.setDisable(true);
 		botonVer.setDisable(true);
 
+		// No permite que el usuario haga un selección multiple de objeto en la tabla
 		tabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+		// Crea un escuchar de cambios de selección en la tabla para
+		// habilitar los botones de acción cuando halla un elemento seleccionado
 		tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Juego>() {
 
 			@Override
@@ -89,31 +104,57 @@ public class ControladorVerJuegos implements Initializable {
 		});
 	}
 
-	public void setMainApp(MainApp stage) {
-		this.stage = stage;
+	/**
+	 * Recibe la clase principal de la aplicación para gestionar la llamada a la
+	 * siguiente ventana
+	 * 
+	 * @param mainApp es la clase principa de la aplicación
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
 	}
 
+	/**
+	 * Recibe el marco de la ventana que será controlada por la clase
+	 * 
+	 * @param stage es el marco de la ventana VerJuegos
+	 */
 	public void setDialog(Stage stage) {
 		this.dialogVerJuegos = stage;
 	}
 
+	/**
+	 * Cierra la ventana controlada por la clase y vuelve a la ventana Principal
+	 */
 	@FXML
 	public void volver() {
 		dialogVerJuegos.close();
 	}
 
+	/**
+	 * Permite abrir la ventana DetallesJuego cuando se ha seleccionado un juego de
+	 * la tabla
+	 */
 	@FXML
 	public void ver() {
 		Juego juego = tabla.getSelectionModel().getSelectedItem();
-		stage.mostrarDetallesJuego(juego);
+		mainApp.mostrarDetallesJuego(juego);
 	}
 
+	/**
+	 * Permite abrir la ventana de ValorarJuego cuando se ha seleccionado un juego
+	 * de la tabla
+	 */
 	@FXML
 	public void valorar() {
 		Juego juego = tabla.getSelectionModel().getSelectedItem();
-		stage.mostrarValorarJuego(juego);
+		mainApp.mostrarValorarJuego(juego);
 	}
 
+	/**
+	 * Carga en la tabla un listado de juegos cuyo estilo coincida con el
+	 * seleccionado en el combobox de estilos
+	 */
 	public void cargarPorEstilo() {
 		switch (comboBox.getSelectionModel().getSelectedItem()) {
 		case "TODOS":
@@ -132,17 +173,20 @@ public class ControladorVerJuegos implements Initializable {
 			listaJuegos = FXCollections.observableArrayList(juegoDAO.consultarPorEstilo(EstiloJuego.estrategia));
 			break;
 		}
-
+		// Calcula el porcentaje de votos positivos por cada juego encontrado
 		for (Juego juego : listaJuegos) {
 			juego.setValoracion();
 		}
 
+		// Prepara la tabla para recibir los datos de los objetos de la lista
 		columnaNombre.setCellValueFactory(new PropertyValueFactory<Juego, String>("nombre"));
 		columnaEstilo.setCellValueFactory(new PropertyValueFactory<Juego, EstiloJuego>("estilo"));
 		columnaFecha.setCellValueFactory(new PropertyValueFactory<Juego, Date>("publicacion"));
 		columnaPrecio.setCellValueFactory(new PropertyValueFactory<Juego, Double>("precio"));
 		columnaValoracion.setCellValueFactory(new PropertyValueFactory<Juego, String>("valoracion"));
 
+		// Actualiza la tabla por si tuviera información anterior y establece los nuevos
+		// datos
 		tabla.refresh();
 		tabla.setItems(listaJuegos);
 	}

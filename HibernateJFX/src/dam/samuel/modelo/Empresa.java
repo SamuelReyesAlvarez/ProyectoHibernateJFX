@@ -29,50 +29,99 @@ public class Empresa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Dato autogenerado que identifica de forma única a este objeto entre los de su
+	 * clase
+	 */
 	@Id
 	@Column(name = "idEmpresa")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idEmpresa;
 
+	/**
+	 * Nombre de la empresa
+	 */
 	@Column(name = "nombre")
 	@NotBlank
 	@Size(min = 3, max = 25)
 	private String nombre;
 
+	/**
+	 * Lista de la relacion con los juegos que ha desarrollado. Se almacena en la
+	 * base de datos dentro de la tabla Desarrolla
+	 */
 	@OneToMany
 	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "idEmpresa")
 	private List<Desarrolla> juegos;
 
+	/**
+	 * Constructor principal de la clase
+	 * 
+	 * @param nombre en el nombre de la empresa
+	 */
 	public Empresa(String nombre) {
 		this.nombre = nombre;
 		this.juegos = new ArrayList<>();
 	}
 
+	/**
+	 * Constructor estándar
+	 */
 	public Empresa() {
 		super();
 	}
 
+	/**
+	 * Devuelve el identificador de la empresa
+	 * 
+	 * @return idEmpresa
+	 */
 	public int getIdEmpresa() {
 		return idEmpresa;
 	}
 
+	/**
+	 * Devuelve el nombre de la empresa
+	 * 
+	 * @return nombre
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * Devuelve la relación con los juegos desarrollados por la empresa
+	 * 
+	 * @return lista de juegos
+	 */
 	public List<Desarrolla> getJuegos() {
 		return juegos;
 	}
 
+	/**
+	 * Establece el identificador de la empresa
+	 * 
+	 * @param idEmpresa es el identificador de la empresa en la base de datos
+	 */
 	public void setIdEmpresa(int idEmpresa) {
 		this.idEmpresa = idEmpresa;
 	}
 
+	/**
+	 * Establece el nombre de la empresa
+	 * 
+	 * @param nombre es el nombre de la empresa
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * Establece la relacion con los juegos desarrollados
+	 * 
+	 * @param juegos es la relación de juegos desarrollados por la empresa
+	 */
 	public void setJuegos(List<Desarrolla> juegos) {
 		this.juegos = juegos;
 	}
@@ -99,6 +148,9 @@ public class Empresa implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Muestra los datos principales de la empresa
+	 */
 	@Override
 	public String toString() {
 		return "Empresa [idEmpresa=" + idEmpresa + ", nombre=" + nombre + "]";

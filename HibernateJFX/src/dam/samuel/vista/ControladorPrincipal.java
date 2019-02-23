@@ -12,18 +12,27 @@ import javafx.stage.Stage;
  */
 public class ControladorPrincipal {
 
+	private MainApp mainApp;
+	private Stage dialogPrincipal;
+
 	@FXML
 	private Button btnNuevoJuego;
-
 	@FXML
 	private Button btnNuevoDesarrollador;
 
-	private MainApp stage;
-	private Stage dialogPrincipal;
-
+	/**
+	 * Constructor estándar
+	 */
 	public ControladorPrincipal() {
 	}
 
+	/**
+	 * Activa o desactiva las funciones de Administrador según la autorización
+	 * recibida
+	 * 
+	 * @param esAdmin indica si el usuario tiene autorización para realizar
+	 *                funciones administrativas en la aplicación
+	 */
 	public void controlarOpciones(boolean esAdmin) {
 		if (!esAdmin) {
 			btnNuevoJuego.setVisible(esAdmin);
@@ -31,39 +40,68 @@ public class ControladorPrincipal {
 		}
 	}
 
-	public void setMainApp(MainApp stage) {
-		this.stage = stage;
+	/**
+	 * Recibe la clase principal de la aplicación para gestionar la llamada a la
+	 * siguiente ventana
+	 * 
+	 * @param mainApp es la clase principal de la aplicación
+	 */
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
 	}
 
+	/**
+	 * Recibe el marco de la ventana controlada por la clase
+	 * 
+	 * @param stage marco de la ventana Principal
+	 */
 	public void setDialog(Stage stage) {
 		this.dialogPrincipal = stage;
 	}
 
+	/**
+	 * Llama a la clase principal para cargar la ventana VerJuegos
+	 */
 	@FXML
 	public void verJuegos() {
-		stage.mostrarVerJuegos();
+		mainApp.mostrarVerJuegos();
 	}
 
+	/**
+	 * Llama a la clase principal para cargar la ventana VerDesarrolladores
+	 */
 	@FXML
 	public void verDesarrolladores() {
-		stage.mostrarVerDesarrolladores();
+		mainApp.mostrarVerDesarrolladores();
 	}
 
+	/**
+	 * Llama a la clase principal para cargar la ventana RegistroJuego
+	 */
 	@FXML
 	public void nuevoJuego() {
-		stage.mostrarNuevoJuego();
+		mainApp.mostrarNuevoJuego();
 	}
 
+	/**
+	 * Llama a la clase principal para cargar la ventana RegistroEmpresa
+	 */
 	@FXML
 	public void nuevoDesarrollador() {
-		stage.mostrarNuevoDesarrollador();
+		mainApp.mostrarNuevoDesarrollador();
 	}
 
+	/**
+	 * Cierra la ventana controlada por la clase y vuelve al Login
+	 */
 	@FXML
 	public void volver() {
 		dialogPrincipal.close();
 	}
 
+	/**
+	 * Cierra la aplicación por completo
+	 */
 	@FXML
 	public void salir() {
 		System.exit(0);
